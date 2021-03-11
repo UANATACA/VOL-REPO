@@ -34,7 +34,6 @@ paths:
         required: true
         description: User credentials
         type: string
-        default: "Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu"
       responses:
         200:
           description: Successful Response
@@ -55,7 +54,7 @@ paths:
         - application/json
       parameters:
       - in: path
-        name: docid
+        name: id
         type: string
         description: The code of the document to be verified, generated in the **UPLOAD DOCUMENT** call
         required: true
@@ -63,7 +62,6 @@ paths:
         name: type
         type: string
         description: The report format (json - rml)
-        default: json
         enum: [json, rml]
         required: true
       - in: query
@@ -76,14 +74,12 @@ paths:
         name: lang
         type: string
         enum: [en, it]
-        default: en
         required: true  
         description: The report language (it - en)
       - in: header
         name: Authorization
         required: true
         type: string
-        default: "Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu"
         description: User credentials
       responses:
         200:
@@ -109,7 +105,7 @@ paths:
         - application/pdf  
       parameters:
       - in: path
-        name: docid
+        name: id
         type: string 
         required: true
         description: The code of the document to be verified, generated in the **UPLOAD DOCUMENT** call
@@ -117,7 +113,6 @@ paths:
         name: Authorization
         required: true
         type: string
-        default: "Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu"
         description: User credentials
       responses:
         200:
@@ -144,7 +139,6 @@ paths:
         name: Authorization
         required: true
         type: string
-        default: "Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu"
         description: User credentials
       responses:
         200:
