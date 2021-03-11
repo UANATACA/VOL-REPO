@@ -1,0 +1,155 @@
+swagger: '2.0'
+info:
+  version: '1.0'
+  title: UANATACA VOL API DOCUMENTATION FOR DEVELOPERS
+  x-logo:
+      url: https://i.ibb.co/FwcHkGb/logoUana.png
+      backgroundColor: #FFFFFF
+      altText: Vol logo
+  description: 
+      $ref: ./Vol_guide.md
+  
+host: vol.uanataca.com
+schemes: 
+  - https
+
+paths:
+  /api/documents:
+    post:
+      summary: UPLOAD DOCUMENT
+      tags:
+        - VOL API Calls
+      description: Allows the upload of a document that needs verification.
+      produces:
+        - application/json
+      consumes:
+        - multipart/form-data
+      parameters:
+      - in: formData
+        name: document
+        description: The document to be verified
+        required: true
+        type: file
+      - in: header
+        name: Authorization
+        required: true
+        description: User credentials
+        type: string
+        default: "Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu"
+      responses:
+        200:
+          description: Successful Response
+          examples:
+            application/json:
+                {
+                    "code": "201 Created",
+                    "location": "/documents/{id}"
+                }
+  #############
+  /api/documents/{id}/verify/report:
+    get: 
+      summary: GET RESPONSE
+      tags:
+        - VOL API Calls
+      description: Obtains the response of the verification process.
+      produces:
+        - application/json
+      parameters:
+      - in: path
+        name: docid
+        type: string
+        description: The code of the document to be verified, generated in the **UPLOAD DOCUMENT** call
+        required: true
+      - in: query
+        name: type
+        type: string
+        description: The report format (json - rml)
+        default: json
+        enum: [json, rml]
+        required: true
+      - in: query
+        name: template
+        type: string
+        description: Verification report template
+        enum: [report]
+        required: true 
+      - in: query
+        name: lang
+        type: string
+        enum: [en, it]
+        default: en
+        required: true  
+        description: The report language (it - en)
+      - in: header
+        name: Authorization
+        required: true
+        type: string
+        default: "Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu"
+        description: User credentials
+      responses:
+        200:
+          description: Successful Response
+          examples:
+            application/json:
+                {
+                    "report": {
+                        "now": "2021-02-03T14:49:23.488006",
+                        "type": "PAdES",
+                        "document_uri": "/contents?documentid=e09ec1e970388f36",
+                        "annotations": [(...)]
+                      }
+                }
+  #############               
+  /api/documents/{id}:
+    get: 
+      summary: GET ORIGINAL DOCUMENT
+      tags:
+        - VOL API Calls
+      description: Retrieves the original document previously uploaded.
+      produces:
+        - application/pdf  
+      parameters:
+      - in: path
+        name: docid
+        type: string 
+        required: true
+        description: The code of the document to be verified, generated in the **UPLOAD DOCUMENT** call
+      - in: header
+        name: Authorization
+        required: true
+        type: string
+        default: "Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu"
+        description: User credentials
+      responses:
+        200:
+          description: Successful Response
+          examples:
+            application/pdf:
+              The original document ready to download.
+  #############
+  /reports:
+    get: 
+      summary: GET REPORT
+      tags:
+        - VOL API Calls
+      description: Prints the verification report in a .pdf format file.
+      produces:
+        - application/pdf     
+      parameters:
+      - in: query
+        name: documentid
+        type: string 
+        description: The `{id}`
+        required: true
+      - in: header
+        name: Authorization
+        required: true
+        type: string
+        default: "Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu"
+        description: User credentials
+      responses:
+        200:
+          description: Successful Response
+          examples:
+            application/pdf:
+              The report file ready to download.

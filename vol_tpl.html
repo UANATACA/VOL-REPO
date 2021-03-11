@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>UANATACA SIGNBOX API</title>
+    <meta charset="utf8" />
+    <title>{{title}}</title>
+    <meta name="description" content="{{title}}" />
+    <link rel="icon" type="image/png" href="{{favicon}}" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <!-- needed for adaptive design -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!--
+    ReDoc uses font options from the parent element
+    So override default browser styles
+    -->
+    <style>
+      /* Change colors and fonts */
+
+      /* light colors */
+      /* :root {
+        --background-color: rgb(255, 255, 255);
+        --text-color: rgb(0,68,212);
+        --border-color: rgba(0,0,0, 0.2);
+        --fonts: Helvetica, 'Open Sans';
+        --logoFile: ./images/logo-dotless.png;
+      } */
+
+      /* dark colors */ 
+      :root {
+        --background-color: #D3D3D3;
+        --background-color-footer: #4B4A4B;
+        --footer-color: #000000;
+        --dropdown-text-color: #AAAAAA;
+        --text-color:#F8F8F8;
+        --footer-text-color: #989898;
+        --border-color: #AAAAAA;
+        --fonts: Lato;
+        --logoFile: ./images/logo-dotless-invert.png;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        margin: 0;
+      }
+
+      .menu-content {
+        padding-top: 3em;
+      }
+
+      .main-header {
+        position: sticky;
+        top: 0;
+        width: 100%;
+        z-index: 10;
+      }
+
+      /* Navbar/footer styling and positioning */
+      .main-header .container,
+      .container {
+        font-family: var(--fonts);
+        display: flex;
+        justify-content: flex-start;
+        -webkit-box-pack: start;
+        align-items: center;
+        -webkit-box-align: center;
+        flex-wrap: wrap;
+        background-color: var(--background-color);
+        box-shadow: 0 1px 2px var(--border-color);
+        height: 50px;
+        max-width: 100%;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 10;
+      }
+
+      .footer {
+        font-family: var(--fonts);
+        display: flex;
+        justify-content: flex-start;
+        -webkit-box-pack: start;
+        align-items: baseline;
+        -webkit-box-align: center;
+        flex-wrap: wrap;
+        background-color: var(--footer-color);
+        box-shadow: 0 1px 3px var(--border-color);
+        height: 55px;
+        max-width: 100%;
+      }
+
+      .footer-container {
+        font-family: var(--fonts);
+        display: flex;
+        justify-content: flex-start;
+        -webkit-box-pack: start;
+        align-items: center;
+        -webkit-box-align: center;
+        flex-wrap: wrap;
+        background-color: var(--background-color-footer);
+        height: 50px;
+        width: inherit;
+      }
+
+      .footer-text {
+        font-family: var(--fonts);
+        color: var(--footer-text-color);
+        margin-left: 1em;
+      }
+
+      .footer-link1 {
+        font-family: var(--fonts);
+        color: var(--footer-text-color);
+        margin-left: 27em;
+      }      
+
+      .footer-link2 {
+        font-family: var(--fonts);
+        color: var(--footer-text-color);
+        margin-left: 10em;
+      }
+
+      .container a {
+        text-decoration: none;
+        color: var(--text-color);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+      }
+
+      .logo img {
+        margin: 0 1em;
+      }
+
+      .main-nav {
+        flex-grow: 1;
+      }
+
+      .main-nav2 {
+        margin-left: auto;
+      }
+
+      .main-nav li {
+        display: inline;
+      }
+
+      .main-nav ul {
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .main-nav a {
+        padding: 2.8em 2.5em;
+        color: var(--text-color);
+      }
+
+      .footer {
+        position:absolute;
+        width: 100%;
+        z-index: 20;
+      }
+
+      .footer .container {
+        justify-content: center;
+        color: var(--text-color);
+        box-shadow: 0 -1px 2px var(--border-color);
+      }
+
+      .menu-nav-list {
+        list-style: none;
+        margin: 0px;
+        padding: 0px;
+        display: none;
+        position: absolute;
+        z-index: 15;
+        color: var(--background-color);
+        top: 0px;
+        right: 0px;
+        left: 0px;
+        bottom: 0px;
+        font-size: 1.1875rem;
+        background: linear-gradient(
+          -63.43deg,
+          var(--background-color) 15%,
+          var(--background-color) 85%
+        );
+        text-align: left;
+      }
+
+      @media only screen and (max-width: 768px) {
+
+        .main-header .container {
+          justify-content: space-between;
+          align-items: center;
+          justify-items: center;
+        }
+
+        .main-nav {
+          display: none;
+        }
+
+        /* Menu button positioning and styling */
+        .menu {
+          display: flex;
+          -webkit-box-align: center;
+          align-items: center;
+          -webkit-box-pack: end;
+          justify-content: flex-end;  
+          width: 30px;
+          height: 1.5em;
+          position: relative;
+          margin-right: 1em;
+          -webkit-transform: rotate(0deg);
+          -moz-transform: rotate(0deg);
+          -o-transform: rotate(0deg);
+          transform: rotate(0deg);
+          -webkit-transition: 0.5s ease-in-out;
+          -moz-transition: 0.5s ease-in-out;
+          -o-transition: 0.5s ease-in-out;
+          transition: 0.5s ease-in-out;
+          cursor: pointer;
+          z-index: 16;
+        }
+
+        .menu span {
+          display: block;
+          position: absolute;
+          height: 5px;
+          width: 100%;
+          background: var(--text-color);
+          border-radius: 5px;
+          opacity: 1;
+          left: 0;
+          -webkit-transform: rotate(0deg);
+          -moz-transform: rotate(0deg);
+          -o-transform: rotate(0deg);
+          transform: rotate(0deg);
+          -webkit-transition: 0.25s ease-in-out;
+          -moz-transition: 0.25s ease-in-out;
+          -o-transition: 0.25s ease-in-out;
+          transition: 0.25s ease-in-out;
+        }
+
+        /* Hamburger menu button animations */
+
+        .menu span:nth-child(1) {
+          top: 0px;
+        }
+
+        .menu span:nth-child(2),
+        #menu span:nth-child(3) {
+          top: 10px;
+        }
+
+        .menu span:nth-child(4) {
+          top: 20px;
+        }
+
+        .menu.open span:nth-child(1) {
+          top: 0px;
+          width: 0%;
+          left: 50%;
+        }
+
+        .menu.open span:nth-child(2) {
+          -webkit-transform: rotate(45deg);
+          -moz-transform: rotate(45deg);
+          -o-transform: rotate(45deg);
+          transform: rotate(45deg);
+        }
+
+        .menu.open span:nth-child(3) {
+          -webkit-transform: rotate(-45deg);
+          -moz-transform: rotate(-45deg);
+          -o-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+        }
+
+        .menu.open span:nth-child(4) {
+          top: 0px;
+          width: 0%;
+          left: 50%;
+        }
+
+        /* Menu list styling */
+        .menu-nav-list {
+          display: none;
+          position: fixed;
+          flex-direction: column;
+          overflow-y: auto;
+          justify-content: center;
+          align-items: center;
+          line-height: 3;
+          text-size-adjust: 100%;
+        }
+      }
+
+        /* HOVERABLE DROPDOWN */
+
+      .dropdown {
+        position: relative;
+        display: inline-block;
+        font-family: var(--fonts);
+
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        right: -15px; 
+        top: 35px;       
+        font-family: var(--fonts);
+        background-color: #DFDFDF;
+        font-size:16px;
+        text-align: center;
+        min-width: 210px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        padding: 0px 0px;
+        z-index: 1;
+      }
+
+      .dropdown-content a {
+        padding: 12px 16px;
+        color: #989898;
+        text-decoration: none;
+        display: block;
+      }
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+
+      .dropdown-content a:hover {
+        background-color: #D1D1D1; 
+        color: #989898;
+      }
+
+      #nav span:after {
+        width: 0;
+        height: 0;
+        border: 0.313em solid transparent;
+        border-bottom: none;
+        border-top-color: #f8f8f8;
+        content: '';
+        vertical-align: middle;
+        display: inline-block;
+        position: relative;
+        right: -1.200em;
+      }
+
+    </style>
+    {{{redocHead}}}
+
+    {{{redocHead}}} 
+    {{{fonts}}}
+  </head>
+
+  <body>
+    <header class="main-header">
+      <div class="container">
+        <div class="logo">
+          <img id="logoImg" alt="uana_logo" src="https://i.ibb.co/C6ytQ38/logo-uanataca-developers.png"/>
+        </div>
+
+
+        <!-- Menu button -->
+        <div class="menu">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+        <div class="main-nav">
+          <ul class="menu">
+            <div class="dropdown">
+            <li id="nav"><a href=" "><span>API References</span></a>
+              <ul>
+                  <div class="dropdown-content">
+                    <li><a href="https://signbox-test.redoc.ly">SignBox</a></li>
+                    <li><a href="https://oneshot-docs.redoc.ly">Oneshot</a></li>
+                    <li><a href="https://ra-docs.redoc.ly">RA</a></li>
+                    <li><a href="https://signcloud-docs.redoc.ly">SignCloud</a></li>
+                    <li><a href="https://vol-docs.redoc.ly">VOL</a></li>
+                    <li><a href="https://tsa-docs.redoc.ly">TSA</a></li>
+                    <li><a href="https://tsa-docs.redoc.ly">Cryptowallet</a></li>
+                  </div>
+              </ul>
+            </li>
+            </div>
+            <li><a href="https://vol-docs.redoc.ly" target="_self">Contact</a></li>
+          </ul>
+        </div>
+
+        <!-- Mobile menu items list -->
+        <ul class="menu-nav-list">
+          <li><a href="https://oneshot-docs.redoc.ly" target="_self">SignBox</a></li>
+          <li><a href="https://signcloud-docs.redoc.ly" target="_self">Oneshot</a></li>
+          <li><a href="https://vol-docs.redoc.ly" target="_self">RA</a></li>
+          <li><a href="https://vol-docs.redoc.ly" target="_self">Signcloud</a></li>
+          <li><a href="https://vol-docs.redoc.ly" target="_self">VOL</a></li>
+          <li><a href="https://vol-docs.redoc.ly" target="_self">TSA</a></li>
+          <li><a href="https://vol-docs.redoc.ly" target="_self">Cryptowallet</a></li>
+        </ul>
+      
+      </div>
+    </header>
+
+    {{{redocHTML}}}
+
+    <footer class="footer">
+      <div class="footer-container">
+        <span class="footer-text">Copyright © Uanataca 2021. All rights reserved.</span>
+        <span class="footer-link1">Legal note/Privacy</span>
+        <span class="footer-link2">Cookies policy</span>
+        <div class="main-nav2">
+        <div class="logo">
+          <img id="logoImg" alt="uana_logo2" src="https://i.ibb.co/thpRGfM/logo-uanataca-developers2.png"/>
+        </div>
+      </div>
+      </div>
+    </footer>
+
+    <script>
+      // Open menu using button
+      const toggle = document.querySelector(".menu");
+      const toggleMenu = document.querySelector(".menu-nav-list");
+
+      toggle.addEventListener("click", () => {
+        toggle.classList.toggle("open");
+        toggle.classList == "menu open"
+          ? (toggleMenu.style.display = "flex")
+          : (toggleMenu.style.display = "none");
+      });   
+
+      // Change logo image
+      const customProps = window.getComputedStyle(document.documentElement);
+      const link = document.getElementById("logoImg");
+      const img = document.createElement('img');
+      img.id = 'imageFile';
+      img.alt = '{{title}}';
+      img.src = customProps.getPropertyValue('--logoFile');
+      link.appendChild(img);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,94 @@
+apiDefinitions:
+  SIGNBOX-TEST-GITHUB: ./Signbox.yaml
+referenceDocs:
+  htmlTemplate: 
+    $ref: ../html_templates/HF_template.html
+  hideDownloadButton: true
+  showConsole: false
+  scrollYOffset: main-header # Esto baja el panel verical izquierdo justo debajo del header
+  generateCodeSamples:
+    languages:
+      - lang: "curl"
+      - lang: "JavaScript"
+      - lang: "Python"
+      - lang: "Node.js"
+      - lang: "C#"
+  theme:
+    spacing:
+      sectionHorizontal: 80
+      sectionVertical: 35 
+    colors:
+      primary:
+        main: '#585856'
+      success:
+        main: '#2F8132'
+      warning:
+        main: '#F5DE80'
+      error:
+        main: '#E20D1B'
+      text:
+        primary: '#585856'
+        secondary: '#4B4A4B'
+    schema:
+      nestedBackground: '#DFDFDF'
+      defaultDetailsWidth: '75%'
+      typeNameColor: '#808080'
+      typeTitleColor: '#585856'
+      labelsTextSize: '1em'
+    typography:
+      fontsize:  '14px'     # Tamaño de fuente párrafo regular
+      fontFamily: 'Lato'    # Tipografía párrafo regular
+      fontWeightRegular: 400 
+      heading1:
+        fontSize: '1,8em'   # Tamaño de títulos categoría 1 
+        fontWeight: 600     # Grosor de títulos categoría 1 
+        fontFamily: 'Lato'  # Fuente de títulos categoría 1 
+        lineHeight: '3em'   # Altura de fuente párrafo regular
+      heading2:
+        fontSize: '1,4em'
+        fontWeight: 400
+        fontFamily: 'Lato'
+      heading3:
+        fontSize: '1,27em'
+        fontWeight: 200
+        fontFamily: 'Lato'
+      rightPanelHeading:
+        fontFamily: 'Lato'
+      fieldName:
+        fontFamily: 'Lato'    
+      tokens:
+        string:
+          color: '#A0FBAB' # Para todo lo que esté encerrado en comillas simples o dobles
+        operator:
+          color: '#FFFFFF' 
+        number:
+          color: '#FFFFFF' # Para números
+        comment:
+          color: '#CAC053' # Para comentarios 
+        keyword:
+          color: '#D1949E' # Para keywords como import, var, const, print, etc
+      code:
+        fontSize: '12px'
+        fontFamily: 'Courier, monospace'
+        fontWeight: 400
+        color: '#E20D1B'
+        backgroundColor: '#DFDFDF'
+    menu:
+      width: '260px'
+      backgroundColor: '#F8F8F8'
+      textColor: '#585856'
+      groupItems:
+        textTransform: 'uppercase'
+        fontFamily: 'Lato'
+      level1Items:
+        textTransform: 'none'
+        fontFamily: 'Lato'
+    rightPanel:
+      backgroundColor: '#585856'
+      width: '40%'
+      textColor: '#FFFFFF'
+    codeSample:
+      backgroundColor: '#242424'
+      borderRadius: '10px'         
+    logo:
+      gutter: '20px'
