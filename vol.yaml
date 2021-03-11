@@ -1,13 +1,12 @@
 swagger: '2.0'
 info:
   version: '1.0'
-  title: UANATACA VOL API DOCUMENTATION FOR DEVELOPERS
+  title: UANATACA VOL API DOCUMENTATION
   x-logo:
       url: https://i.ibb.co/FwcHkGb/logoUana.png
-      backgroundColor: #FFFFFF
       altText: Vol logo
   description: 
-      $ref: ./Vol_guide.md
+      $ref: ./vol_gui.md
   
 host: vol.uanataca.com
 schemes: 
