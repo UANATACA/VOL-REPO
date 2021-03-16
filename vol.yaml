@@ -35,14 +35,94 @@ paths:
         description: User credentials
         type: string
       responses:
-        200:
+        201:
           description: Successful Response
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                description: The response status id
+              location: 
+                type: string
+                description: An alphanumeric string that identifies the uploaded document
           examples:
             application/json:
                 {
-                    "code": "201 Created",
-                    "location": "/documents/{id}"
+                    "code": "201 OK",
+                    "details": "/documents/9686d3a083432047"
                 }
+      x-codeSamples:
+        - lang: 'curl'
+          source: |
+                  curl -i -X POST \
+                    https://vol.uanataca.com/api/documents \
+                    -H 'Authorization: Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu' \
+                    -H 'Content-Type: multipart/form-data' \
+                    -F document=@sample_folder/document.pdf
+        - lang: 'JavaScript'
+          source: |
+                  var formdata = new FormData();
+                  formdata.append("document", fileInput.files[0], "sample_folder/document.pdf");
+
+                  var requestOptions = {
+                    method: 'POST',
+                    headers: myHeaders,
+                    body: formdata,
+                    redirect: 'follow'
+                  };
+
+                  fetch("https://vol.uanataca.com/api/documents", requestOptions)
+                    .then(response => response.text())
+                    .then(result => console.log(result))
+                    .catch(error => console.log('error', error));
+        - lang: 'Python'
+          source: |
+                  import requests
+
+                  url = "https://vol.uanataca.com/api/documents"
+
+                  payload={}
+                  files=[
+                    ('file',('document.pdf',open('sample_folder/document.pdf','rb'),'application/pdf'))
+                  ]
+                  
+                  headers = {
+                    "Content-Type": "multipart/form-data",
+                    "Authorization": "Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu"
+                  }
+
+                  response = requests.request("POST", url, headers=headers, data=payload, files=files)
+
+                  print(response.text)
+        - lang: 'Node.js'
+          source: |
+                  const fs = require('fs');
+                  const FormData = require('form-data');
+                  const fetch = require('node-fetch');
+                  const formData = new FormData();
+
+                  formData.append('document', fs.createReadStream('sample_folder/document.pdf'));
+  
+                  const url = 'https://vol.uanataca.com/api/documents';
+
+                  const options = {
+                    method: 'POST',
+                    headers: {
+                      Authorization: 'Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu',
+                      'Content-Type': 'multipart/form-data; boundary=---011000010111000001101001'
+                    }
+                  };
+        - lang: 'C#'
+          source: |
+                  var client = new RestClient("https://vol.uanataca.com/api/documents");
+                  client.Timeout = -1;
+                  var request = new RestRequest(Method.POST);
+                  request.AddHeader("content-type", "multipart/form-data; boundary=----011000010111000001101001");
+                  request.AddHeader("Authorization", "Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu");
+                  request.AddFile("document", "sample_folder/document.pdf");
+                  IRestResponse response = client.Execute(request);
+                  Console.WriteLine(response.Content);
   #############
   /api/documents/{id}/verify/report:
     get: 
@@ -84,16 +164,2310 @@ paths:
       responses:
         200:
           description: Successful Response
+          schema:
+            type: object
+            properties:
+              report:
+                type: object
+                description: JSON object with information associated to the verification report
+          examples:
+            application/json:
+                  {
+                      "report": {
+                          "now": "2021-03-16T14:41:06.038999",
+                          "type": "PAdES",
+                          "document_uri": "/contents?documentid=e09ec1e970388f36",
+                          "annotations": [
+                              {
+                                  "type": "signature",
+                                  "name": "Name Surname1 Surname2",
+                                  "reason": null,
+                                  "location": null,
+                                  "signature_time": "2020-11-16T15:24:15+00:00",
+                                  "signature": {
+                                      "version": 1,
+                                      "digest_algorithm_identifiers": [
+                                          {
+                                              "oid": "2.16.840.1.101.3.4.2.1",
+                                              "name": "sha256",
+                                              "parameters": null
+                                          }
+                                      ],
+                                      "signatures": [
+                                          {
+                                              "version": 1,
+                                              "issuer_and_serial_number": {
+                                                  "issuer": {
+                                                      "x500name": "2.5.4.97=VATES-A66721499,CN=UANATACA CA1 DEVEL 2016,OU=AC-UANATACA,O=UANATACA S.A.,L=Barcelona (see current address at www.uanataca.com/address),C=ES",
+                                                      "items": [
+                                                          {
+                                                              "oid": "2.5.4.6",
+                                                              "x500_name": "country",
+                                                              "x500_short_name": "C",
+                                                              "value": "ES",
+                                                              "charset": "PRINTABLE_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.7",
+                                                              "x500_name": "locality",
+                                                              "x500_short_name": "L",
+                                                              "value": "Barcelona (see current address at www.uanataca.com/address)",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.10",
+                                                              "x500_name": "organization",
+                                                              "x500_short_name": "O",
+                                                              "value": "UANATACA S.A.",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.11",
+                                                              "x500_name": "organizationalUnit",
+                                                              "x500_short_name": "OU",
+                                                              "value": "AC-UANATACA",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.3",
+                                                              "x500_name": "commonName",
+                                                              "x500_short_name": "CN",
+                                                              "value": "UANATACA CA1 DEVEL 2016",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.97",
+                                                              "x500_name": "organizationIdentifier",
+                                                              "x500_short_name": null,
+                                                              "value": "VATES-A66721499",
+                                                              "charset": "UTF8_STRING"
+                                                          }
+                                                      ]
+                                                  },
+                                                  "serial_number": {
+                                                      "hex": "131dcb47dae25b51",
+                                                      "integer": "1377480570520623953"
+                                                  }
+                                              },
+                                              "subject_key_identifier": null,
+                                              "digest_algorithm": {
+                                                  "oid": "2.16.840.1.101.3.4.2.1",
+                                                  "name": "sha256",
+                                                  "parameters": null
+                                              },
+                                              "signing_cert": 0,
+                                              "signed_attributes": [
+                                                  {
+                                                      "oid": "1.2.840.113549.1.9.3",
+                                                      "name": "contentType",
+                                                      "value": {
+                                                          "oid": "1.2.840.113549.1.7.1",
+                                                          "name": "data"
+                                                      }
+                                                  },
+                                                  {
+                                                      "oid": "1.2.840.113549.1.9.16.2.12",
+                                                      "name": "signingCertificate",
+                                                      "value": {
+                                                          "certs": [
+                                                              {
+                                                                  "hash": "3458cb878484f8f3537db88c2fdb921d26bd24ae",
+                                                                  "issuer_serial": null,
+                                                                  "signing_cert": 0
+                                                              }
+                                                          ],
+                                                          "policies": []
+                                                      }
+                                                  },
+                                                  {
+                                                      "oid": "1.2.840.113549.1.9.4",
+                                                      "name": "messageDigest",
+                                                      "value": "5c60925e597833f54acb2291462ba5ba9a36ff47bb1fdc2059688e7396e3848f"
+                                                  }
+                                              ],
+                                              "unsigned_attributes": [
+                                                  {
+                                                      "oid": "1.2.840.113549.1.9.16.2.14",
+                                                      "name": "signatureTimeStampToken",
+                                                      "value": {
+                                                          "tst_info": {
+                                                              "version": 1,
+                                                              "serial_number": {
+                                                                  "hex": "69c8c10311b94c",
+                                                                  "integer": "29775603860355404"
+                                                              },
+                                                              "message_imprint": {
+                                                                  "hash_algorithm": {
+                                                                      "oid": "2.16.840.1.101.3.4.2.1",
+                                                                      "name": "sha256",
+                                                                      "parameters": null
+                                                                  },
+                                                                  "hashed_message": "71d58834353edc5668f491a6306b1ccf4bd04ddda6421a8fefea81c34dbeb919"
+                                                              },
+                                                              "time": "2020-11-16T15:24:17",
+                                                              "accuracy": 1.0,
+                                                              "ordering": false,
+                                                              "nonce": null,
+                                                              "tsa": null,
+                                                              "extensions": []
+                                                          },
+                                                          "signature_digest": "71d58834353edc5668f491a6306b1ccf4bd04ddda6421a8fefea81c34dbeb919",
+                                                          "signature": {
+                                                              "version": 3,
+                                                              "digest_algorithm_identifiers": [
+                                                                  {
+                                                                      "oid": "2.16.840.1.101.3.4.2.1",
+                                                                      "name": "sha256",
+                                                                      "parameters": null
+                                                                  }
+                                                              ],
+                                                              "signatures": [
+                                                                  {
+                                                                      "version": 1,
+                                                                      "issuer_and_serial_number": {
+                                                                          "issuer": {
+                                                                              "x500name": "2.5.4.97=VATES-A66721499,CN=UANATACA CA2 2016,OU=TSP-UANATACA,O=UANATACA S.A.,L=Barcelona (see current address at www.uanataca.com/address),C=ES",
+                                                                              "items": [
+                                                                                  {
+                                                                                      "oid": "2.5.4.6",
+                                                                                      "x500_name": "country",
+                                                                                      "x500_short_name": "C",
+                                                                                      "value": "ES",
+                                                                                      "charset": "PRINTABLE_STRING"
+                                                                                  },
+                                                                                  {
+                                                                                      "oid": "2.5.4.7",
+                                                                                      "x500_name": "locality",
+                                                                                      "x500_short_name": "L",
+                                                                                      "value": "Barcelona (see current address at www.uanataca.com/address)",
+                                                                                      "charset": "UTF8_STRING"
+                                                                                  },
+                                                                                  {
+                                                                                      "oid": "2.5.4.10",
+                                                                                      "x500_name": "organization",
+                                                                                      "x500_short_name": "O",
+                                                                                      "value": "UANATACA S.A.",
+                                                                                      "charset": "UTF8_STRING"
+                                                                                  },
+                                                                                  {
+                                                                                      "oid": "2.5.4.11",
+                                                                                      "x500_name": "organizationalUnit",
+                                                                                      "x500_short_name": "OU",
+                                                                                      "value": "TSP-UANATACA",
+                                                                                      "charset": "UTF8_STRING"
+                                                                                  },
+                                                                                  {
+                                                                                      "oid": "2.5.4.3",
+                                                                                      "x500_name": "commonName",
+                                                                                      "x500_short_name": "CN",
+                                                                                      "value": "UANATACA CA2 2016",
+                                                                                      "charset": "UTF8_STRING"
+                                                                                  },
+                                                                                  {
+                                                                                      "oid": "2.5.4.97",
+                                                                                      "x500_name": "organizationIdentifier",
+                                                                                      "x500_short_name": null,
+                                                                                      "value": "VATES-A66721499",
+                                                                                      "charset": "UTF8_STRING"
+                                                                                  }
+                                                                              ]
+                                                                          },
+                                                                          "serial_number": {
+                                                                              "hex": "0ecfcf5062b82022",
+                                                                              "integer": "1067299580870664226"
+                                                                          }
+                                                                      },
+                                                                      "subject_key_identifier": null,
+                                                                      "digest_algorithm": {
+                                                                          "oid": "2.16.840.1.101.3.4.2.1",
+                                                                          "name": "sha256",
+                                                                          "parameters": null
+                                                                      },
+                                                                      "signing_cert": 1,
+                                                                      "signed_attributes": [
+                                                                          {
+                                                                              "oid": "1.2.840.113549.1.9.3",
+                                                                              "name": "contentType",
+                                                                              "value": {
+                                                                                  "oid": "1.2.840.113549.1.9.16.1.4",
+                                                                                  "name": "tSTInfo"
+                                                                              }
+                                                                          },
+                                                                          {
+                                                                              "oid": "1.2.840.113549.1.9.5",
+                                                                              "name": "signingTime",
+                                                                              "value": "2020-11-16T15:24:17"
+                                                                          },
+                                                                          {
+                                                                              "oid": "1.2.840.113549.1.9.4",
+                                                                              "name": "messageDigest",
+                                                                              "value": "c3e915c6c0f002c3e0e087deb6b415965d4c06cfd97053019961f021b2922e88"
+                                                                          },
+                                                                          {
+                                                                              "oid": "1.2.840.113549.1.9.16.2.47",
+                                                                              "name": "signingCertificateV2",
+                                                                              "value": {
+                                                                                  "certs": [
+                                                                                      {
+                                                                                          "hash": "f7e7b3c034022e9fdd3eb2bd626ab19fe3bf56d8db20d622b313176d81d29eb5",
+                                                                                          "issuer_serial": {
+                                                                                              "issuer": [
+                                                                                                  {
+                                                                                                      "option": "DIRECTORY",
+                                                                                                      "value": {
+                                                                                                          "x500name": "2.5.4.97=VATES-A66721499,CN=UANATACA CA2 2016,OU=TSP-UANATACA,O=UANATACA S.A.,L=Barcelona (see current address at www.uanataca.com/address),C=ES",
+                                                                                                          "items": [
+                                                                                                              {
+                                                                                                                  "oid": "2.5.4.6",
+                                                                                                                  "x500_name": "country",
+                                                                                                                  "x500_short_name": "C",
+                                                                                                                  "value": "ES",
+                                                                                                                  "charset": "PRINTABLE_STRING"
+                                                                                                              },
+                                                                                                              {
+                                                                                                                  "oid": "2.5.4.7",
+                                                                                                                  "x500_name": "locality",
+                                                                                                                  "x500_short_name": "L",
+                                                                                                                  "value": "Barcelona (see current address at www.uanataca.com/address)",
+                                                                                                                  "charset": "UTF8_STRING"
+                                                                                                              },
+                                                                                                              {
+                                                                                                                  "oid": "2.5.4.10",
+                                                                                                                  "x500_name": "organization",
+                                                                                                                  "x500_short_name": "O",
+                                                                                                                  "value": "UANATACA S.A.",
+                                                                                                                  "charset": "UTF8_STRING"
+                                                                                                              },
+                                                                                                              {
+                                                                                                                  "oid": "2.5.4.11",
+                                                                                                                  "x500_name": "organizationalUnit",
+                                                                                                                  "x500_short_name": "OU",
+                                                                                                                  "value": "TSP-UANATACA",
+                                                                                                                  "charset": "UTF8_STRING"
+                                                                                                              },
+                                                                                                              {
+                                                                                                                  "oid": "2.5.4.3",
+                                                                                                                  "x500_name": "commonName",
+                                                                                                                  "x500_short_name": "CN",
+                                                                                                                  "value": "UANATACA CA2 2016",
+                                                                                                                  "charset": "UTF8_STRING"
+                                                                                                              },
+                                                                                                              {
+                                                                                                                  "oid": "2.5.4.97",
+                                                                                                                  "x500_name": "organizationIdentifier",
+                                                                                                                  "x500_short_name": null,
+                                                                                                                  "value": "VATES-A66721499",
+                                                                                                                  "charset": "UTF8_STRING"
+                                                                                                              }
+                                                                                                          ]
+                                                                                                      }
+                                                                                                  }
+                                                                                              ],
+                                                                                              "serial_number": {
+                                                                                                  "hex": "0ecfcf5062b82022",
+                                                                                                  "integer": "1067299580870664226"
+                                                                                              }
+                                                                                          },
+                                                                                          "signing_cert": 1
+                                                                                      }
+                                                                                  ],
+                                                                                  "policies": []
+                                                                              }
+                                                                          }
+                                                                      ],
+                                                                      "unsigned_attributes": [],
+                                                                      "signed_attributes_digest": "61b2484b5c92a78c80e094123741f7394b24d349b9b66a7e195a56ba4119daae",
+                                                                      "signature_algorithm": {
+                                                                          "oid": "1.2.840.113549.1.1.11",
+                                                                          "name": "sha256WithRSAEncryption",
+                                                                          "parameters": null
+                                                                      },
+                                                                      "content_digest": "c3e915c6c0f002c3e0e087deb6b415965d4c06cfd97053019961f021b2922e88",
+                                                                      "valid": true
+                                                                  }
+                                                              ]
+                                                          }
+                                                      }
+                                                  }
+                                              ],
+                                              "signed_attributes_digest": "0ebecfcdd54d584f70f06f6ce6479f083a721e5a1d36659bf865a9657cb66f0e",
+                                              "signature_algorithm": {
+                                                  "oid": "1.2.840.113549.1.1.11",
+                                                  "name": "sha256WithRSAEncryption",
+                                                  "parameters": null
+                                              },
+                                              "content_digest": "5c60925e597833f54acb2291462ba5ba9a36ff47bb1fdc2059688e7396e3848f",
+                                              "valid": true
+                                          }
+                                      ],
+                                      "certificates": [
+                                          {
+                                              "sources": {
+                                                  "DOCUMENT": [
+                                                      {}
+                                                  ]
+                                              },
+                                              "data_uri": "/certificates?documentid=e09ec1e970388f36&key=2a176bbd1ec73a3032a1ea7fe00b375587651253b8d9dd0ee5833f734fd1b31e",
+                                              "self": 0,
+                                              "issuer": null,
+                                              "revocation_infos": [
+                                                  {
+                                                      "source": "CRL",
+                                                      "index": 0,
+                                                      "revoked": null
+                                                  }
+                                              ],
+                                              "certificate": {
+                                                  "version": 3,
+                                                  "serial_number": {
+                                                      "hex": "131dcb47dae25b51",
+                                                      "integer": "1377480570520623953"
+                                                  },
+                                                  "signature_algorithm": {
+                                                      "oid": "1.2.840.113549.1.1.11",
+                                                      "name": "sha256WithRSAEncryption",
+                                                      "parameters": null
+                                                  },
+                                                  "issuer": {
+                                                      "x500name": "2.5.4.97=VATES-A66721499,CN=UANATACA CA1 DEVEL 2016,OU=AC-UANATACA,O=UANATACA S.A.,L=Barcelona (see current address at www.uanataca.com/address),C=ES",
+                                                      "items": [
+                                                          {
+                                                              "oid": "2.5.4.6",
+                                                              "x500_name": "country",
+                                                              "x500_short_name": "C",
+                                                              "value": "ES",
+                                                              "charset": "PRINTABLE_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.7",
+                                                              "x500_name": "locality",
+                                                              "x500_short_name": "L",
+                                                              "value": "Barcelona (see current address at www.uanataca.com/address)",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.10",
+                                                              "x500_name": "organization",
+                                                              "x500_short_name": "O",
+                                                              "value": "UANATACA S.A.",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.11",
+                                                              "x500_name": "organizationalUnit",
+                                                              "x500_short_name": "OU",
+                                                              "value": "AC-UANATACA",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.3",
+                                                              "x500_name": "commonName",
+                                                              "x500_short_name": "CN",
+                                                              "value": "UANATACA CA1 DEVEL 2016",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.97",
+                                                              "x500_name": "organizationIdentifier",
+                                                              "x500_short_name": null,
+                                                              "value": "VATES-A66721499",
+                                                              "charset": "UTF8_STRING"
+                                                          }
+                                                      ]
+                                                  },
+                                                  "not_before": {
+                                                      "option": "UTC_TIME",
+                                                      "utc": true,
+                                                      "value": "2020-11-16T15:24:00"
+                                                  },
+                                                  "not_after": {
+                                                      "option": "UTC_TIME",
+                                                      "utc": true,
+                                                      "value": "2020-11-17T15:24:00"
+                                                  },
+                                                  "subject": {
+                                                      "x500name": "CN=Name Surname1 Surname2,SERIALNUMBER=NIEES-YXXXXXXXE,G=Name,SN=Surname1 Surname2,C=ES",
+                                                      "items": [
+                                                          {
+                                                              "oid": "2.5.4.6",
+                                                              "x500_name": "country",
+                                                              "x500_short_name": "C",
+                                                              "value": "ES",
+                                                              "charset": "PRINTABLE_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.4",
+                                                              "x500_name": "surname",
+                                                              "x500_short_name": "SN",
+                                                              "value": "Surname1 Surname2",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.42",
+                                                              "x500_name": "givenName",
+                                                              "x500_short_name": "G",
+                                                              "value": "Name",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.5",
+                                                              "x500_name": "deviceSerialNumber",
+                                                              "x500_short_name": "SERIALNUMBER",
+                                                              "value": "NIEES-YXXXXXXXE",
+                                                              "charset": "PRINTABLE_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.3",
+                                                              "x500_name": "commonName",
+                                                              "x500_short_name": "CN",
+                                                              "value": "Name Surname1 Surname2",
+                                                              "charset": "UTF8_STRING"
+                                                          }
+                                                      ]
+                                                  },
+                                                  "public_key_algorithm": {
+                                                      "oid": "1.2.840.113549.1.1.1",
+                                                      "name": "rsaEncryption",
+                                                      "parameters": null
+                                                  },
+                                                  "public_key": {
+                                                      "bits": 2048,
+                                                      "modulus": "009965c3534e9739f7a7380b2828c22393ee3597ec91e664026bf0bea6bfda9df04d6320e476fdfda72665e25f0f34c4074b1fdeab90a9f70165d53bfc57f555647b6548fc3ecd4cb5f00f7dc653634507ff60fb3a7a2059236945d4dea247570badb0fe34dd557e88089aa42133ea4d8b83612d16fb475578f811b39415c2cb36cc49eb3b57b902840e587eea43593c83fc274b4a4bad4f3a6a393c84b8c2dcd4cdd4d0cf007298b053f40b7c04e500e6492ace21063d43351b14ad16732ad53b7a525e693fcc5368156a8961fd9d28ec5ad4c7a70799f5be11564882d85423c3c7cf56abff87317bd36a017acb2957db8650e9f5855f66728d618c3c66e5f373",
+                                                      "public_exponent": "010001"
+                                                  },
+                                                  "issuer_unique_id": null,
+                                                  "subject_unique_id": null,
+                                                  "extensions": [
+                                                      {
+                                                          "oid": "1.3.6.1.5.5.7.1.3",
+                                                          "name": "qcStatements",
+                                                          "critical": false,
+                                                          "value": [
+                                                              {
+                                                                  "oid": "0.4.0.1862.1.1",
+                                                                  "name": "QcCompliance",
+                                                                  "description": "Statement claiming that the certificate is a Qualified Certificate",
+                                                                  "info": null
+                                                              },
+                                                              {
+                                                                  "oid": "0.4.0.1862.1.3",
+                                                                  "name": "QcRetentionPeriod",
+                                                                  "description": "Statement indicating the duration of the retention period of material information",
+                                                                  "info": 15
+                                                              },
+                                                              {
+                                                                  "oid": "0.4.0.1862.1.4",
+                                                                  "name": "QcSSCD",
+                                                                  "description": "Statement claiming that the private key related to the certified public key resides in a Secure Signature Creation Device (SSCD)",
+                                                                  "info": null
+                                                              },
+                                                              {
+                                                                  "oid": "0.4.0.1862.1.5",
+                                                                  "name": "QcPDS",
+                                                                  "description": "QCStatement regarding location of PKI Disclosure Statements",
+                                                                  "info": [
+                                                                      {
+                                                                          "url": "https://www.uanataca.com/public/cps/",
+                                                                          "language": "EN"
+                                                                      }
+                                                                  ]
+                                                              },
+                                                              {
+                                                                  "oid": "0.4.0.1862.1.6",
+                                                                  "name": "QcType",
+                                                                  "description": "QCStatement claiming that the certificate is a EU qualified certificate of a particular type",
+                                                                  "info": [
+                                                                      {
+                                                                          "oid": "0.4.0.1862.1.6.1",
+                                                                          "name": "esign"
+                                                                      }
+                                                                  ]
+                                                              }
+                                                          ]
+                                                      },
+                                                      {
+                                                          "oid": "1.3.6.1.5.5.7.1.1",
+                                                          "name": "authorityInfoAccess",
+                                                          "critical": false,
+                                                          "value": [
+                                                              {
+                                                                  "oid": "1.3.6.1.5.5.7.48.2",
+                                                                  "name": "caIssuers",
+                                                                  "location": {
+                                                                      "option": "URI",
+                                                                      "value": "http://www.uanataca.com/public/download/tsp_certificates/subordinate1.crt"
+                                                                  }
+                                                              },
+                                                              {
+                                                                  "oid": "1.3.6.1.5.5.7.48.1",
+                                                                  "name": "OCSP",
+                                                                  "location": {
+                                                                      "option": "URI",
+                                                                      "value": "http://ocsp1.uanataca.com/public/pki/ocsp/"
+                                                                  }
+                                                              },
+                                                              {
+                                                                  "oid": "1.3.6.1.5.5.7.48.1",
+                                                                  "name": "OCSP",
+                                                                  "location": {
+                                                                      "option": "URI",
+                                                                      "value": "http://ocsp2.uanataca.com/public/pki/ocsp/"
+                                                                  }
+                                                              }
+                                                          ]
+                                                      },
+                                                      {
+                                                          "oid": "2.5.29.14",
+                                                          "name": "subjectKeyIdentifier",
+                                                          "critical": false,
+                                                          "value": "7749019e1cfe1bb69caea110ef52edfd82318f87"
+                                                      },
+                                                      {
+                                                          "oid": "2.5.29.19",
+                                                          "name": "basicConstraints",
+                                                          "critical": true,
+                                                          "value": {
+                                                              "ca": null,
+                                                              "path_len": null
+                                                          }
+                                                      },
+                                                      {
+                                                          "oid": "2.5.29.35",
+                                                          "name": "authorityKeyIdentifier",
+                                                          "critical": false,
+                                                          "value": {
+                                                              "key_identifier": "cacc8aa5cfa48c225ad6fb97f74fb44efdd5efae",
+                                                              "authority_cert_issuer": null,
+                                                              "authority_cert_serial_number": null
+                                                          }
+                                                      },
+                                                      {
+                                                          "oid": "2.5.29.32",
+                                                          "name": "certificatePolicies",
+                                                          "critical": false,
+                                                          "value": [
+                                                              {
+                                                                  "oid": "1.3.6.1.4.1.47286.1.1.6",
+                                                                  "name": null,
+                                                                  "description": null,
+                                                                  "qualifiers": [
+                                                                      {
+                                                                          "oid": "1.3.6.1.5.5.7.2.1",
+                                                                          "name": "CPS",
+                                                                          "value": "https://www.uanataca.com/public/cps/"
+                                                                      },
+                                                                      {
+                                                                          "oid": "1.3.6.1.5.5.7.2.2",
+                                                                          "name": "UserNotice",
+                                                                          "value": {
+                                                                              "reference": null,
+                                                                              "text": "Qualified certificate for Natural Person in Remote QSCD"
+                                                                          }
+                                                                      }
+                                                                  ]
+                                                              },
+                                                              {
+                                                                  "oid": "0.4.0.194112.1.2",
+                                                                  "name": "qcp-natural-qscd",
+                                                                  "description": "Certificate policy for European Union (EU) qualified certificates issued to natural persons with private key related to the certified public key in a Qualified electronic Signature/seal Creation Device (QSCD)",
+                                                                  "qualifiers": []
+                                                              }
+                                                          ]
+                                                      },
+                                                      {
+                                                          "oid": "2.5.29.31",
+                                                          "name": "cRLDistributionPoints",
+                                                          "critical": false,
+                                                          "value": [
+                                                              {
+                                                                  "option": "URI",
+                                                                  "value": "http://crl1.uanataca.com/public/pki/crl/CA1subordinada.crl"
+                                                              },
+                                                              {
+                                                                  "option": "URI",
+                                                                  "value": "http://crl2.uanataca.com/public/pki/crl/CA1subordinada.crl"
+                                                              }
+                                                          ]
+                                                      },
+                                                      {
+                                                          "oid": "2.5.29.15",
+                                                          "name": "keyUsage",
+                                                          "critical": true,
+                                                          "value": [
+                                                              "digitalSignature",
+                                                              "nonRepudiation",
+                                                              "keyEncipherment"
+                                                          ]
+                                                      },
+                                                      {
+                                                          "oid": "2.5.29.37",
+                                                          "name": "extendedKeyUsage",
+                                                          "critical": false,
+                                                          "value": [
+                                                              {
+                                                                  "oid": "1.3.6.1.5.5.7.3.2",
+                                                                  "name": "clientAuthentication"
+                                                              },
+                                                              {
+                                                                  "oid": "1.3.6.1.5.5.7.3.4",
+                                                                  "name": "eMailProtection"
+                                                              }
+                                                          ]
+                                                      },
+                                                      {
+                                                          "oid": "2.5.29.17",
+                                                          "name": "subjectAlternativeName",
+                                                          "critical": false,
+                                                          "value": [
+                                                              {
+                                                                  "option": "MAIL_ADDRESS",
+                                                                  "value": "persona@correo.com"
+                                                              }
+                                                          ]
+                                                      }
+                                                  ],
+                                                  "signature": "3cd5576ccdd13df24df4a6d919e09b87c237a2948022eb0b01957f6d424136d2bcc92f4aa7f5a4304bccda23f10db582c7ae808c43b64b4e2102adb57e6e3549a826a64ab79a3556ed4d36f5f4748f47116b05216f72bb5760d2185d89bb9259ea73b2d91d12bc2810a89908fd66820e5564c145ea16dda5fcdbb1c361c4734113e711880a242db4c2fff163a401a35f49430a4e01839b3075801b958f30251f56f48600abc1b67603843a315dd3f7e6634eda12c0855dbe81d9ad3b6b6789048e10244434507ce6d170d8ef316bea65dce6a17cad581a7a9d971f565311f2288ffbda876d5d8013875bdb85d7eb7b1b439a31d1f5a7fadceccf9d5b09b0e17950a9f4e427be71e8d2e8399ae5623c1091aa97237d45e72b1fdf76fb5504205dcb31ba4bf748130693d65b1650b2196ad81105e17632b34f7a07efc169d723359e73aa59d222fc5e6a46b0a0f8449c1f66221720cd980a07b096c176590e39c618a95b43d01853f2e970a57cbb1319b6c9a269ddda89e77c5cc25fc3bb8720f398e78472f8e529b5419a4d7c5a13c675239b559ee32dcdd10c069bc79993fe0ae303b0920d31594c6daa482ad2a182fee34958eeb1a2abfc16e7487d9b8f2ee766bf6f5b2de047e0e361917b8f8e9a0903740c3840310c6036a30a6da1d5a78dbb39670cfa06de8c59b8efddf004992c227a4c47704c27be5141a756643dd8c8"
+                                              }
+                                          },
+                                          {
+                                              "sources": {
+                                                  "DOCUMENT": [
+                                                      {}
+                                                  ],
+                                                  "STORE": [
+                                                      {
+                                                          "TSL": 1540315182.924374,
+                                                          "chain": {},
+                                                          "TSL_/opt/bit4id/gui/var/tmp/tsl/ES": {},
+                                                          "trusted": {},
+                                                          "tsa": {}
+                                                      }
+                                                  ]
+                                              },
+                                              "data_uri": "/certificates?documentid=e09ec1e970388f36&key=9c023400c61241296f02d545a511cf1860dcbbaafbeb262ac09fb28dc5dbdcb0",
+                                              "self": 1,
+                                              "issuer": 2,
+                                              "revocation_infos": [
+                                                  {
+                                                      "source": "CRL",
+                                                      "index": 1,
+                                                      "revoked": null
+                                                  },
+                                                  {
+                                                      "source": "OCSP",
+                                                      "index": 0,
+                                                      "single_response_index": 0,
+                                                      "status": {
+                                                          "option": "GOOD",
+                                                          "revoked_info": null
+                                                      }
+                                                  }
+                                              ],
+                                              "certificate": {
+                                                  "version": 3,
+                                                  "serial_number": {
+                                                      "hex": "0ecfcf5062b82022",
+                                                      "integer": "1067299580870664226"
+                                                  },
+                                                  "signature_algorithm": {
+                                                      "oid": "1.2.840.113549.1.1.11",
+                                                      "name": "sha256WithRSAEncryption",
+                                                      "parameters": null
+                                                  },
+                                                  "issuer": {
+                                                      "x500name": "2.5.4.97=VATES-A66721499,CN=UANATACA CA2 2016,OU=TSP-UANATACA,O=UANATACA S.A.,L=Barcelona (see current address at www.uanataca.com/address),C=ES",
+                                                      "items": [
+                                                          {
+                                                              "oid": "2.5.4.6",
+                                                              "x500_name": "country",
+                                                              "x500_short_name": "C",
+                                                              "value": "ES",
+                                                              "charset": "PRINTABLE_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.7",
+                                                              "x500_name": "locality",
+                                                              "x500_short_name": "L",
+                                                              "value": "Barcelona (see current address at www.uanataca.com/address)",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.10",
+                                                              "x500_name": "organization",
+                                                              "x500_short_name": "O",
+                                                              "value": "UANATACA S.A.",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.11",
+                                                              "x500_name": "organizationalUnit",
+                                                              "x500_short_name": "OU",
+                                                              "value": "TSP-UANATACA",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.3",
+                                                              "x500_name": "commonName",
+                                                              "x500_short_name": "CN",
+                                                              "value": "UANATACA CA2 2016",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.97",
+                                                              "x500_name": "organizationIdentifier",
+                                                              "x500_short_name": null,
+                                                              "value": "VATES-A66721499",
+                                                              "charset": "UTF8_STRING"
+                                                          }
+                                                      ]
+                                                  },
+                                                  "not_before": {
+                                                      "option": "UTC_TIME",
+                                                      "utc": true,
+                                                      "value": "2017-05-19T21:15:50"
+                                                  },
+                                                  "not_after": {
+                                                      "option": "UTC_TIME",
+                                                      "utc": true,
+                                                      "value": "2025-05-19T21:15:50"
+                                                  },
+                                                  "subject": {
+                                                      "x500name": "2.5.4.97=VATES-A66721499,CN=Sello cualificado de tiempo electrónico de UANATACA – TSU01,OU=TSP-UANATACA,O=UANATACA S.A.,L=Barcelona,C=ES",
+                                                      "items": [
+                                                          {
+                                                              "oid": "2.5.4.6",
+                                                              "x500_name": "country",
+                                                              "x500_short_name": "C",
+                                                              "value": "ES",
+                                                              "charset": "PRINTABLE_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.7",
+                                                              "x500_name": "locality",
+                                                              "x500_short_name": "L",
+                                                              "value": "Barcelona",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.10",
+                                                              "x500_name": "organization",
+                                                              "x500_short_name": "O",
+                                                              "value": "UANATACA S.A.",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.11",
+                                                              "x500_name": "organizationalUnit",
+                                                              "x500_short_name": "OU",
+                                                              "value": "TSP-UANATACA",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.3",
+                                                              "x500_name": "commonName",
+                                                              "x500_short_name": "CN",
+                                                              "value": "Sello cualificado de tiempo electrónico de UANATACA – TSU01",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.97",
+                                                              "x500_name": "organizationIdentifier",
+                                                              "x500_short_name": null,
+                                                              "value": "VATES-A66721499",
+                                                              "charset": "UTF8_STRING"
+                                                          }
+                                                      ]
+                                                  },
+                                                  "public_key_algorithm": {
+                                                      "oid": "1.2.840.113549.1.1.1",
+                                                      "name": "rsaEncryption",
+                                                      "parameters": null
+                                                  },
+                                                  "public_key": {
+                                                      "bits": 2048,
+                                                      "modulus": "00c0f8c324eeeb99c6fd6513fb959be08c8178e3c379502d9163e2c327bd60acbe73d56cea4ef710169f379f379f4f7e8c79f25cde0cea060e2d721c2a1ca991f31e407765c966c7327c6cde05fc12f4dbb1518f14b07b315d07cc89345d7a0e8777869b0c26efe09c24bac8a5371cdabc9b89912ca32755d3ec74e5342bdab3b04b701fab47d913fd5cb4fb6de14c320b8a4187e4f615bf3c21e331ad28e2d13a0d2acd3c9c688420a6ac4c38842ac7a4bc46540eb0aa13957152f58f03a9cf9e3bee0ecc16aebf140de60615a52c40200977c51fbefbf98239a4d40894b1dd4d6d978731e894f850ecf9e4419e428e726849032afed3f8827e9a9a1fab4147ff",
+                                                      "public_exponent": "010001"
+                                                  },
+                                                  "issuer_unique_id": null,
+                                                  "subject_unique_id": null,
+                                                  "extensions": [
+                                                      {
+                                                          "oid": "1.3.6.1.5.5.7.1.3",
+                                                          "name": "qcStatements",
+                                                          "critical": false,
+                                                          "value": [
+                                                              {
+                                                                  "oid": "0.4.0.1862.1.1",
+                                                                  "name": "QcCompliance",
+                                                                  "description": "Statement claiming that the certificate is a Qualified Certificate",
+                                                                  "info": null
+                                                              },
+                                                              {
+                                                                  "oid": "0.4.0.1862.1.3",
+                                                                  "name": "QcRetentionPeriod",
+                                                                  "description": "Statement indicating the duration of the retention period of material information",
+                                                                  "info": 15
+                                                              },
+                                                              {
+                                                                  "oid": "0.4.0.1862.1.4",
+                                                                  "name": "QcSSCD",
+                                                                  "description": "Statement claiming that the private key related to the certified public key resides in a Secure Signature Creation Device (SSCD)",
+                                                                  "info": null
+                                                              },
+                                                              {
+                                                                  "oid": "0.4.0.1862.1.5",
+                                                                  "name": "QcPDS",
+                                                                  "description": "QCStatement regarding location of PKI Disclosure Statements",
+                                                                  "info": [
+                                                                      {
+                                                                          "url": "https://www.uanataca.com/public/cps/",
+                                                                          "language": "EN"
+                                                                      }
+                                                                  ]
+                                                              },
+                                                              {
+                                                                  "oid": "0.4.0.1862.1.6",
+                                                                  "name": "QcType",
+                                                                  "description": "QCStatement claiming that the certificate is a EU qualified certificate of a particular type",
+                                                                  "info": [
+                                                                      {
+                                                                          "oid": "0.4.0.1862.1.6.2",
+                                                                          "name": "eseal"
+                                                                      }
+                                                                  ]
+                                                              }
+                                                          ]
+                                                      },
+                                                      {
+                                                          "oid": "1.3.6.1.5.5.7.1.1",
+                                                          "name": "authorityInfoAccess",
+                                                          "critical": false,
+                                                          "value": [
+                                                              {
+                                                                  "oid": "1.3.6.1.5.5.7.48.2",
+                                                                  "name": "caIssuers",
+                                                                  "location": {
+                                                                      "option": "URI",
+                                                                      "value": "http://www.uanataca.com/public/download/tsp_certificates/subordinate1.crt"
+                                                                  }
+                                                              },
+                                                              {
+                                                                  "oid": "1.3.6.1.5.5.7.48.1",
+                                                                  "name": "OCSP",
+                                                                  "location": {
+                                                                      "option": "URI",
+                                                                      "value": "http://ocsp1.uanataca.com/public/pki/ocsp/"
+                                                                  }
+                                                              },
+                                                              {
+                                                                  "oid": "1.3.6.1.5.5.7.48.1",
+                                                                  "name": "OCSP",
+                                                                  "location": {
+                                                                      "option": "URI",
+                                                                      "value": "http://ocsp2.uanataca.com/public/pki/ocsp/"
+                                                                  }
+                                                              }
+                                                          ]
+                                                      },
+                                                      {
+                                                          "oid": "2.5.29.14",
+                                                          "name": "subjectKeyIdentifier",
+                                                          "critical": false,
+                                                          "value": "edffd40e4d9c97963ea1cb26510f3f28a061db59"
+                                                      },
+                                                      {
+                                                          "oid": "2.5.29.19",
+                                                          "name": "basicConstraints",
+                                                          "critical": false,
+                                                          "value": {
+                                                              "ca": null,
+                                                              "path_len": null
+                                                          }
+                                                      },
+                                                      {
+                                                          "oid": "2.5.29.35",
+                                                          "name": "authorityKeyIdentifier",
+                                                          "critical": false,
+                                                          "value": {
+                                                              "key_identifier": "7d57e76073ce0746a9e2a368f0e111b2749273fd",
+                                                              "authority_cert_issuer": null,
+                                                              "authority_cert_serial_number": null
+                                                          }
+                                                      },
+                                                      {
+                                                          "oid": "2.5.29.32",
+                                                          "name": "certificatePolicies",
+                                                          "critical": false,
+                                                          "value": [
+                                                              {
+                                                                  "oid": "1.3.6.1.4.1.47286.1.5",
+                                                                  "name": null,
+                                                                  "description": null,
+                                                                  "qualifiers": [
+                                                                      {
+                                                                          "oid": "1.3.6.1.5.5.7.2.1",
+                                                                          "name": "CPS",
+                                                                          "value": "https://www.uanataca.com/public/cps/"
+                                                                      },
+                                                                      {
+                                                                          "oid": "1.3.6.1.5.5.7.2.2",
+                                                                          "name": "UserNotice",
+                                                                          "value": {
+                                                                              "reference": null,
+                                                                              "text": "Certificado de sello cualificado de tiempo electrónico."
+                                                                          }
+                                                                      }
+                                                                  ]
+                                                              },
+                                                              {
+                                                                  "oid": "0.4.0.194112.1.3",
+                                                                  "name": "qcp-legal-qscd",
+                                                                  "description": "Certificate policy for European Union (EU) qualified certificates issued to legal persons with private key related to the certified public key in a Qualified electronic Signature/seal Creation Device (QSCD)",
+                                                                  "qualifiers": []
+                                                              }
+                                                          ]
+                                                      },
+                                                      {
+                                                          "oid": "2.5.29.31",
+                                                          "name": "cRLDistributionPoints",
+                                                          "critical": false,
+                                                          "value": [
+                                                              {
+                                                                  "option": "URI",
+                                                                  "value": "http://crl1.uanataca.com/public/pki/crl/CA2subordinada.crl"
+                                                              },
+                                                              {
+                                                                  "option": "URI",
+                                                                  "value": "http://crl2.uanataca.com/public/pki/crl/CA2subordinada.crl"
+                                                              }
+                                                          ]
+                                                      },
+                                                      {
+                                                          "oid": "2.5.29.15",
+                                                          "name": "keyUsage",
+                                                          "critical": true,
+                                                          "value": [
+                                                              "digitalSignature"
+                                                          ]
+                                                      },
+                                                      {
+                                                          "oid": "2.5.29.37",
+                                                          "name": "extendedKeyUsage",
+                                                          "critical": true,
+                                                          "value": [
+                                                              {
+                                                                  "oid": "1.3.6.1.5.5.7.3.8",
+                                                                  "name": "timestamping"
+                                                              }
+                                                          ]
+                                                      },
+                                                      {
+                                                          "oid": "2.5.29.17",
+                                                          "name": "subjectAlternativeName",
+                                                          "critical": false,
+                                                          "value": [
+                                                              {
+                                                                  "option": "MAIL_ADDRESS",
+                                                                  "value": "info@uanataca.com"
+                                                              }
+                                                          ]
+                                                      }
+                                                  ],
+                                                  "signature": "b4d4f02efc761aa46004cb97f80eab625f80fd51865419091e6d0a2bfd00b75bf27b0eb4da47f5540ef6249ca5b6aaa0d078ab33e44591ebb6cf01c97783fe1838f8e5d4b1b1cdf8afb0ae976fa012f0e2bc97078d8c3fab3147c73c165eaf7c9b8567a0242da4d9dbd9147406d6c21a3618411db77c9828c60c88a3c6025d8fbd5efff3ed7b06f859089df95fc0613f9d36bf0fd6c62f90e57cf8eeaae3e6b30ee5772ff5e01ce765dc638668405824b6523cfc80b3a811f52f7e3ca5b0f030b2efebf33323d544e53ce1d51b4063c228b0ee3982cc4e5a9bfe2271b211d50a300b4970507b06ce106c66b8c854ac02f1fc47597310b554a675b4703c3d1d4d6b5e9f03afa755443c83c048f9472268ab19d2e57816c321c79983890098760f1e9206ad99a1ac43b903092cf8b49bb02288af6dee8a40a96de97ccfc4c1563c574b352d563292cc451eb5ebf80f7207ea6fb1d1abcde39ed835f856d965271a78dbf72014cc677d6dc85f1fb554a91d1711518636611f431dbb2ee1397e85e3a37d369e628502fdfdf8067f89e7e4720a071871a0deb0f7851af1373e1d9d28de280e29e1a959010fe2ba5851feacec3f4f006d58dd72fbab3a4dd0fa65abd8983916123160310dd2fe22db475c7f5d4ee173a22415744470e69d5a38488be97a183b5115e959fb88f930a808cde0e395a080fe484c8074941be216afd89921"
+                                              }
+                                          },
+                                          {
+                                              "sources": {
+                                                  "STORE": [
+                                                      {
+                                                          "trusted": {},
+                                                          "TSL": 1540315182.924374,
+                                                          "TSL_/opt/bit4id/gui/var/tmp/tsl/ES": {},
+                                                          "chain": {}
+                                                      }
+                                                  ]
+                                              },
+                                              "data_uri": "/certificates?documentid=e09ec1e970388f36&key=de91e697415319b1cd7416224e37c002ba186b31a1410d04b71e4946a02cb66d",
+                                              "self": 2,
+                                              "issuer": null,
+                                              "revocation_infos": [
+                                                  {
+                                                      "source": "CRL",
+                                                      "index": 2,
+                                                      "revoked": null
+                                                  }
+                                              ],
+                                              "certificate": {
+                                                  "version": 3,
+                                                  "serial_number": {
+                                                      "hex": "2027ca2ed163ad13",
+                                                      "integer": "2317042835735686419"
+                                                  },
+                                                  "signature_algorithm": {
+                                                      "oid": "1.2.840.113549.1.1.11",
+                                                      "name": "sha256WithRSAEncryption",
+                                                      "parameters": null
+                                                  },
+                                                  "issuer": {
+                                                      "x500name": "2.5.4.97=VATES-A66721499,CN=UANATACA ROOT 2016,OU=TSP-UANATACA,O=UANATACA S.A.,L=Barcelona (see current address at www.uanataca.com/address),C=ES",
+                                                      "items": [
+                                                          {
+                                                              "oid": "2.5.4.6",
+                                                              "x500_name": "country",
+                                                              "x500_short_name": "C",
+                                                              "value": "ES",
+                                                              "charset": "PRINTABLE_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.7",
+                                                              "x500_name": "locality",
+                                                              "x500_short_name": "L",
+                                                              "value": "Barcelona (see current address at www.uanataca.com/address)",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.10",
+                                                              "x500_name": "organization",
+                                                              "x500_short_name": "O",
+                                                              "value": "UANATACA S.A.",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.11",
+                                                              "x500_name": "organizationalUnit",
+                                                              "x500_short_name": "OU",
+                                                              "value": "TSP-UANATACA",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.3",
+                                                              "x500_name": "commonName",
+                                                              "x500_short_name": "CN",
+                                                              "value": "UANATACA ROOT 2016",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.97",
+                                                              "x500_name": "organizationIdentifier",
+                                                              "x500_short_name": null,
+                                                              "value": "VATES-A66721499",
+                                                              "charset": "UTF8_STRING"
+                                                          }
+                                                      ]
+                                                  },
+                                                  "not_before": {
+                                                      "option": "UTC_TIME",
+                                                      "utc": true,
+                                                      "value": "2016-03-11T10:37:31"
+                                                  },
+                                                  "not_after": {
+                                                      "option": "UTC_TIME",
+                                                      "utc": true,
+                                                      "value": "2029-03-11T10:37:31"
+                                                  },
+                                                  "subject": {
+                                                      "x500name": "2.5.4.97=VATES-A66721499,CN=UANATACA CA2 2016,OU=TSP-UANATACA,O=UANATACA S.A.,L=Barcelona (see current address at www.uanataca.com/address),C=ES",
+                                                      "items": [
+                                                          {
+                                                              "oid": "2.5.4.6",
+                                                              "x500_name": "country",
+                                                              "x500_short_name": "C",
+                                                              "value": "ES",
+                                                              "charset": "PRINTABLE_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.7",
+                                                              "x500_name": "locality",
+                                                              "x500_short_name": "L",
+                                                              "value": "Barcelona (see current address at www.uanataca.com/address)",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.10",
+                                                              "x500_name": "organization",
+                                                              "x500_short_name": "O",
+                                                              "value": "UANATACA S.A.",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.11",
+                                                              "x500_name": "organizationalUnit",
+                                                              "x500_short_name": "OU",
+                                                              "value": "TSP-UANATACA",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.3",
+                                                              "x500_name": "commonName",
+                                                              "x500_short_name": "CN",
+                                                              "value": "UANATACA CA2 2016",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.97",
+                                                              "x500_name": "organizationIdentifier",
+                                                              "x500_short_name": null,
+                                                              "value": "VATES-A66721499",
+                                                              "charset": "UTF8_STRING"
+                                                          }
+                                                      ]
+                                                  },
+                                                  "public_key_algorithm": {
+                                                      "oid": "1.2.840.113549.1.1.1",
+                                                      "name": "rsaEncryption",
+                                                      "parameters": null
+                                                  },
+                                                  "public_key": {
+                                                      "bits": 4096,
+                                                      "modulus": "00cf64c220c6698d1282cf158046b07c9f98061c9ef825f7447f52f8c39d80319136aa4d5331031300a18d304c57a731fb5bbc82f9fe1f8d654da08691e6ba9cb20037a10869557948f981b7d280a51eb04e56c2963c79c893cd679e5283f146607aee40b6770f7b2dd6daf82a1fd3ba6f36fec1a4586aee3f3ca552dc8e78139373403dd98bf719d034d12449cbd163b256dba1eaad593548e5193c4f17f29f90430bb829dbbb2d7c23fd2bf5840b18c520ca9d1ed9be6dd4b2c984e6fac7920b8adacd9fbd7d248406646f6e93dd12d66e837f14a12aff629ddba3d734f6a2cee8ddf924ed297128c6e7f5046720bdc174b3445a6aec5636957da5d326696dce79dd0c936d1ba54c6cd010d8f2dc9e5868077a062574a046bf213463b41b1b6c8af77bb2c572b1cd0b1f40d27f8ba135328f4e01ec0eedcc0324c1f3395453452279e45898146d02f3fd566dc2a9a6fc599fe342f29cc5795e6741abce6fd1d99d0eb95eb8da55f26e0040e11d8334da1b02e2b7231631ea4d10a3753dac342353f81da9d2461925e4ae7ab0078556c7ae03a4152461d0fab752bfc9c214017ea4b777ac8ed599a4276b4c2426f48421ae61d820c67ac5ebdfd56f06e40e3436ff9ccfda701423a4eb66c2c5428bc85198f2af46fcdcaa95262655a150c06d1ebd11730efe6ce3fddac340b4478840e7710fedd636e02e7c6684b62cd1d57759",
+                                                      "public_exponent": "010001"
+                                                  },
+                                                  "issuer_unique_id": null,
+                                                  "subject_unique_id": null,
+                                                  "extensions": [
+                                                      {
+                                                          "oid": "1.3.6.1.5.5.7.1.1",
+                                                          "name": "authorityInfoAccess",
+                                                          "critical": false,
+                                                          "value": [
+                                                              {
+                                                                  "oid": "1.3.6.1.5.5.7.48.1",
+                                                                  "name": "OCSP",
+                                                                  "location": {
+                                                                      "option": "URI",
+                                                                      "value": "http://ocsp1.uanataca.com/public/pki/ocsp/"
+                                                                  }
+                                                              },
+                                                              {
+                                                                  "oid": "1.3.6.1.5.5.7.48.1",
+                                                                  "name": "OCSP",
+                                                                  "location": {
+                                                                      "option": "URI",
+                                                                      "value": "http://ocsp2.uanataca.com/public/pki/ocsp/"
+                                                                  }
+                                                              }
+                                                          ]
+                                                      },
+                                                      {
+                                                          "oid": "2.5.29.14",
+                                                          "name": "subjectKeyIdentifier",
+                                                          "critical": false,
+                                                          "value": "7d57e76073ce0746a9e2a368f0e111b2749273fd"
+                                                      },
+                                                      {
+                                                          "oid": "2.5.29.19",
+                                                          "name": "basicConstraints",
+                                                          "critical": true,
+                                                          "value": {
+                                                              "ca": true,
+                                                              "path_len": null
+                                                          }
+                                                      },
+                                                      {
+                                                          "oid": "2.5.29.35",
+                                                          "name": "authorityKeyIdentifier",
+                                                          "critical": false,
+                                                          "value": {
+                                                              "key_identifier": "552cf1bca15eb9eea02f8857105bfc96f7919a2c",
+                                                              "authority_cert_issuer": null,
+                                                              "authority_cert_serial_number": null
+                                                          }
+                                                      },
+                                                      {
+                                                          "oid": "2.5.29.18",
+                                                          "name": "issuerAlternativeName",
+                                                          "critical": false,
+                                                          "value": [
+                                                              {
+                                                                  "option": "MAIL_ADDRESS",
+                                                                  "value": "info@uanataca.com"
+                                                              }
+                                                          ]
+                                                      },
+                                                      {
+                                                          "oid": "2.5.29.32",
+                                                          "name": "certificatePolicies",
+                                                          "critical": false,
+                                                          "value": [
+                                                              {
+                                                                  "oid": "2.5.29.32.0",
+                                                                  "name": null,
+                                                                  "description": null,
+                                                                  "qualifiers": [
+                                                                      {
+                                                                          "oid": "1.3.6.1.5.5.7.2.1",
+                                                                          "name": "CPS",
+                                                                          "value": "http://www.uanataca.com/public/pki/dpc/"
+                                                                      },
+                                                                      {
+                                                                          "oid": "1.3.6.1.5.5.7.2.2",
+                                                                          "name": "UserNotice",
+                                                                          "value": {
+                                                                              "reference": null,
+                                                                              "text": "Certificado de la Entidad de Certificación subordinada de UANATACA. Ver http://www.uanataca.com/public/pki/dpc/"
+                                                                          }
+                                                                      }
+                                                                  ]
+                                                              }
+                                                          ]
+                                                      },
+                                                      {
+                                                          "oid": "2.5.29.31",
+                                                          "name": "cRLDistributionPoints",
+                                                          "critical": false,
+                                                          "value": [
+                                                              {
+                                                                  "option": "URI",
+                                                                  "value": "http://crl1.uanataca.com/public/pki/crl/arl_uanataca.crl"
+                                                              },
+                                                              {
+                                                                  "option": "URI",
+                                                                  "value": "http://crl2.uanataca.com/public/pki/crl/arl_uanataca.crl"
+                                                              }
+                                                          ]
+                                                      },
+                                                      {
+                                                          "oid": "2.5.29.15",
+                                                          "name": "keyUsage",
+                                                          "critical": true,
+                                                          "value": [
+                                                              "keyCertificateSignature",
+                                                              "cRLSignature"
+                                                          ]
+                                                      }
+                                                  ],
+                                                  "signature": "0718d1d33153a5bb93a4caa0021f3b8d561988ff74878115b37b63a7fbd8a84fe68e9c7519af2dab8035d127e473b93f4e2691fed3238d1b479eefc9b3358783534c69dd06aa205eb8e664b0bc0cedc59ba5e15e8e10c1d6def5cfb43f77a25af832aeebf49e2b09196416e7f99588afe12766f0e919d4f76e524e5178ed7b6a0ea792d705c92264b253ae615429e27f080903607fa2588fd1591b551ad07d98533250bc7d05be7f7189d7e4c379f70988ac5a76a506082bc6b7529e804d0b89a715d53ef3f708df28edb53c5713b9916254f5b5ebb3522ac229c06846f00e15ae3ac9252e0894f0331cb941886e61a3f89b70aed00c05ce1b63cc241af7f13bf54f3b166538a6e175536ec2f3cc76974659a3e592d76a0c95ae225a75921841dac96dd31d209fa07e1400aa6b7b99cb551633011613726d0cef7f17c9c18ad89ce084ec175669a88a2c74f70d1fa04188a77300f9a781aaf58dc614b18ed6af4b42249d63308aad1c78b8d9cc41b64000a9c51aeb92722d34dbd6e67bed4348dfa061dd6f0cb5e44cb789172c6cefa0db6599995da72b1b22a3ffe13e812c25f74a489d77d9f8841c3e7ffdaaf75238f82b2d01a6ec05904a16c8288ff25a75c7cfb6b45957cadeb10b492bd56ed77999d7fc405dad82ae7dfee3332740939f13152bed1fc7cde5b8237cd582ec5297697377b45111bb78330a346e785afb56"
+                                              }
+                                          },
+                                          {
+                                              "sources": {
+                                                  "INTERNET": [
+                                                      {
+                                                          "url": "http://ocsp1.uanataca.com/public/pki/ocsp/"
+                                                      }
+                                                  ]
+                                              },
+                                              "data_uri": "/certificates?documentid=e09ec1e970388f36&key=df2251058c0d63852f6a0632bf27a13a498e6c4e3c3da5ea579e3f4d68a6e2d6",
+                                              "self": 3,
+                                              "issuer": 2,
+                                              "revocation_infos": [
+                                                  {
+                                                      "source": "CRL",
+                                                      "index": 1,
+                                                      "revoked": null
+                                                  },
+                                                  {
+                                                      "source": "CRL",
+                                                      "index": 0,
+                                                      "revoked": null
+                                                  }
+                                              ],
+                                              "certificate": {
+                                                  "version": 3,
+                                                  "serial_number": {
+                                                      "hex": "63053ec78bd60523",
+                                                      "integer": "7135178211403892003"
+                                                  },
+                                                  "signature_algorithm": {
+                                                      "oid": "1.2.840.113549.1.1.11",
+                                                      "name": "sha256WithRSAEncryption",
+                                                      "parameters": null
+                                                  },
+                                                  "issuer": {
+                                                      "x500name": "2.5.4.97=VATES-A66721499,CN=UANATACA CA2 2016,OU=TSP-UANATACA,O=UANATACA S.A.,L=Barcelona (see current address at www.uanataca.com/address),C=ES",
+                                                      "items": [
+                                                          {
+                                                              "oid": "2.5.4.6",
+                                                              "x500_name": "country",
+                                                              "x500_short_name": "C",
+                                                              "value": "ES",
+                                                              "charset": "PRINTABLE_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.7",
+                                                              "x500_name": "locality",
+                                                              "x500_short_name": "L",
+                                                              "value": "Barcelona (see current address at www.uanataca.com/address)",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.10",
+                                                              "x500_name": "organization",
+                                                              "x500_short_name": "O",
+                                                              "value": "UANATACA S.A.",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.11",
+                                                              "x500_name": "organizationalUnit",
+                                                              "x500_short_name": "OU",
+                                                              "value": "TSP-UANATACA",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.3",
+                                                              "x500_name": "commonName",
+                                                              "x500_short_name": "CN",
+                                                              "value": "UANATACA CA2 2016",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.97",
+                                                              "x500_name": "organizationIdentifier",
+                                                              "x500_short_name": null,
+                                                              "value": "VATES-A66721499",
+                                                              "charset": "UTF8_STRING"
+                                                          }
+                                                      ]
+                                                  },
+                                                  "not_before": {
+                                                      "option": "UTC_TIME",
+                                                      "utc": true,
+                                                      "value": "2021-03-08T13:57:19"
+                                                  },
+                                                  "not_after": {
+                                                      "option": "UTC_TIME",
+                                                      "utc": true,
+                                                      "value": "2023-03-08T13:57:19"
+                                                  },
+                                                  "subject": {
+                                                      "x500name": "CN=OCSP de UANATACA - OCSP02,OU=TSP-UANATACA,O=UANATACA S.A.,L=Barcelona (see current address at  www.uanataca.com/address),C=ES",
+                                                      "items": [
+                                                          {
+                                                              "oid": "2.5.4.6",
+                                                              "x500_name": "country",
+                                                              "x500_short_name": "C",
+                                                              "value": "ES",
+                                                              "charset": "PRINTABLE_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.7",
+                                                              "x500_name": "locality",
+                                                              "x500_short_name": "L",
+                                                              "value": "Barcelona (see current address at  www.uanataca.com/address)",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.10",
+                                                              "x500_name": "organization",
+                                                              "x500_short_name": "O",
+                                                              "value": "UANATACA S.A.",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.11",
+                                                              "x500_name": "organizationalUnit",
+                                                              "x500_short_name": "OU",
+                                                              "value": "TSP-UANATACA",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.3",
+                                                              "x500_name": "commonName",
+                                                              "x500_short_name": "CN",
+                                                              "value": "OCSP de UANATACA - OCSP02",
+                                                              "charset": "UTF8_STRING"
+                                                          }
+                                                      ]
+                                                  },
+                                                  "public_key_algorithm": {
+                                                      "oid": "1.2.840.113549.1.1.1",
+                                                      "name": "rsaEncryption",
+                                                      "parameters": null
+                                                  },
+                                                  "public_key": {
+                                                      "bits": 2048,
+                                                      "modulus": "009fa458d8a5bd5e34cb12298632ec19918985145e4c9a4d33abdb405f289350920e2be86c81ed10f035a42a27eb2bc08ce79bd795a2a84a4973bcbea4104fd9472d4d509801e40bcb7134c3ee9eec6f2d4991fa94ad5ea85ceea9d73a3a7b3c0835ae1e06e62ed50f22af80f874676c5b8b9c8b2ba07d41c72b1ccc90f135141a5228b3d214e9c9ffb6b221c0511bb9a002e6a32bb0161aea2010221531ef03937afd665e37b7ecbaf0466c14b28bdfd9af7aa7e5d3c2536877ba022e65de6654708c3fad45152b6c15927038c4c586fdd0b7d8ec333f251281e10b650976b032519fbd8c943d3d74e35c306db3d04f7b084ef0107166d132596f16f40e99b24f",
+                                                      "public_exponent": "010001"
+                                                  },
+                                                  "issuer_unique_id": null,
+                                                  "subject_unique_id": null,
+                                                  "extensions": [
+                                                      {
+                                                          "oid": "1.3.6.1.5.5.7.1.1",
+                                                          "name": "authorityInfoAccess",
+                                                          "critical": false,
+                                                          "value": [
+                                                              {
+                                                                  "oid": "1.3.6.1.5.5.7.48.2",
+                                                                  "name": "caIssuers",
+                                                                  "location": {
+                                                                      "option": "URI",
+                                                                      "value": "http://www.uanataca.com/public/download/tsp_certificates/trustedRoot.p7c"
+                                                                  }
+                                                              }
+                                                          ]
+                                                      },
+                                                      {
+                                                          "oid": "2.5.29.14",
+                                                          "name": "subjectKeyIdentifier",
+                                                          "critical": false,
+                                                          "value": "e4762f3df6962e2073bf6fd912a9f0bd3c64b27e"
+                                                      },
+                                                      {
+                                                          "oid": "2.5.29.19",
+                                                          "name": "basicConstraints",
+                                                          "critical": true,
+                                                          "value": {
+                                                              "ca": null,
+                                                              "path_len": null
+                                                          }
+                                                      },
+                                                      {
+                                                          "oid": "2.5.29.35",
+                                                          "name": "authorityKeyIdentifier",
+                                                          "critical": false,
+                                                          "value": {
+                                                              "key_identifier": "7d57e76073ce0746a9e2a368f0e111b2749273fd",
+                                                              "authority_cert_issuer": null,
+                                                              "authority_cert_serial_number": null
+                                                          }
+                                                      },
+                                                      {
+                                                          "oid": "1.3.6.1.5.5.7.48.1.5",
+                                                          "name": "ocspNoCheck",
+                                                          "critical": false,
+                                                          "value": {
+                                                              "$DER": "BQA="
+                                                          }
+                                                      },
+                                                      {
+                                                          "oid": "1.3.6.1.5.5.7.1.3",
+                                                          "name": "qcStatements",
+                                                          "critical": false,
+                                                          "value": []
+                                                      },
+                                                      {
+                                                          "oid": "2.5.29.32",
+                                                          "name": "certificatePolicies",
+                                                          "critical": false,
+                                                          "value": [
+                                                              {
+                                                                  "oid": "1.3.6.1.4.1.47286.1.6",
+                                                                  "name": null,
+                                                                  "description": null,
+                                                                  "qualifiers": [
+                                                                      {
+                                                                          "oid": "1.3.6.1.5.5.7.2.1",
+                                                                          "name": "CPS",
+                                                                          "value": "http://www.uanataca.com/public/pki/dpc/"
+                                                                      },
+                                                                      {
+                                                                          "oid": "1.3.6.1.5.5.7.2.2",
+                                                                          "name": "UserNotice",
+                                                                          "value": {
+                                                                              "reference": null,
+                                                                              "text": "Certificado OCSP de UANATACA. Ver http://www.uanataca.com/public/pki/dpc/"
+                                                                          }
+                                                                      }
+                                                                  ]
+                                                              }
+                                                          ]
+                                                      },
+                                                      {
+                                                          "oid": "2.5.29.31",
+                                                          "name": "cRLDistributionPoints",
+                                                          "critical": false,
+                                                          "value": [
+                                                              {
+                                                                  "option": "URI",
+                                                                  "value": "http://crl1.uanataca.com/public/pki/crl/CA1subordinada.crl"
+                                                              },
+                                                              {
+                                                                  "option": "URI",
+                                                                  "value": "http://crl2.uanataca.com/public/pki/crl/CA1subordinada.crl"
+                                                              }
+                                                          ]
+                                                      },
+                                                      {
+                                                          "oid": "2.5.29.15",
+                                                          "name": "keyUsage",
+                                                          "critical": true,
+                                                          "value": [
+                                                              "digitalSignature",
+                                                              "nonRepudiation"
+                                                          ]
+                                                      },
+                                                      {
+                                                          "oid": "2.5.29.37",
+                                                          "name": "extendedKeyUsage",
+                                                          "critical": true,
+                                                          "value": [
+                                                              {
+                                                                  "oid": "1.3.6.1.5.5.7.3.9",
+                                                                  "name": "oCSPSigning"
+                                                              }
+                                                          ]
+                                                      },
+                                                      {
+                                                          "oid": "2.5.29.17",
+                                                          "name": "subjectAlternativeName",
+                                                          "critical": false,
+                                                          "value": [
+                                                              {
+                                                                  "option": "MAIL_ADDRESS",
+                                                                  "value": "info@uanataca.com"
+                                                              }
+                                                          ]
+                                                      }
+                                                  ],
+                                                  "signature": "40e6710335af6c6ff71fb1cb8644012057480f860175c48973cedb75ca9860077434c2b372aa44ed932898458578f92d1884de7f0dc10fb3cf11ce1b8723e53bc8615946737275ea028ab7d66db5a85dab92d14d3b05ef20970b9fe9b6408769d0d4ef97d7d11d5720acc5e2aa8f6db323a549baf502ea36f6e12ccd694c466bd377da371658249467a21029e472d768494c3dd913d9950d740d84f617b6c6019e48c07c232da0263a8608ce6e5a334b9681bb21477f8a9be8f4d86d0159f7d2645299e2bc78910c3c280052df97ef73509069457564bcdd27503df0c1cddcbe1bd23dd397bb2b651930c17e9cffab3f391b88c6bb8d3e4d3d18166f6db8c7b882a28f47be72d892fe5243c1cad5df50344f50a9e98423e0f6328b00ec8a35dd8841b1b8efa4105a5c28b54af10ad57719210907ade439fa0fe125004899f154ca7016779a81388adc2f0a1426136de8ea7cbb6dc01acb3ddd9e5bc4c86fc70b07e9c1fd76ad7b0d8f2f429582b5b979949e9fc79fe6af701a57d5830b821f33b5d2045460817d62244493f6a46716e13a0b8881a97ce90b93cd506abebb8870a307965d9637e4898fd60e175e3acbfb64dd5fd0bcefee3e1cd6848de9e7686078adc7df6a11fa17d6d7baea1aaee1d0fabccf35e7b757a54259ee14ae7bba19e0cf6babee1ad24405ce92ba6bbb713e7e7b0130e7785dd6b254656e54da4fcc"
+                                              }
+                                          }
+                                      ],
+                                      "crls": [
+                                          {
+                                              "sources": {
+                                                  "INTERNET": [
+                                                      {
+                                                          "url": "http://crl1.uanataca.com/public/pki/crl/CA1subordinada.crl"
+                                                      }
+                                                  ]
+                                              },
+                                              "data_uri": "/crls?documentid=e09ec1e970388f36&key=94cd5d808acd0119c3f45ea22c27e3177e29fa8918e058d4114a4c641a3a7954",
+                                              "self": 0,
+                                              "issuer": null,
+                                              "crl": {
+                                                  "version": 1,
+                                                  "signature_algorithm": {
+                                                      "oid": "1.2.840.113549.1.1.11",
+                                                      "name": "sha256WithRSAEncryption",
+                                                      "parameters": null
+                                                  },
+                                                  "issuer": {
+                                                      "x500name": "2.5.4.97=VATES-A66721499,CN=UANATACA CA1 2016,OU=TSP-UANATACA,O=UANATACA S.A.,L=Barcelona (see current address at www.uanataca.com/address),C=ES",
+                                                      "items": [
+                                                          {
+                                                              "oid": "2.5.4.6",
+                                                              "x500_name": "country",
+                                                              "x500_short_name": "C",
+                                                              "value": "ES",
+                                                              "charset": "PRINTABLE_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.7",
+                                                              "x500_name": "locality",
+                                                              "x500_short_name": "L",
+                                                              "value": "Barcelona (see current address at www.uanataca.com/address)",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.10",
+                                                              "x500_name": "organization",
+                                                              "x500_short_name": "O",
+                                                              "value": "UANATACA S.A.",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.11",
+                                                              "x500_name": "organizationalUnit",
+                                                              "x500_short_name": "OU",
+                                                              "value": "TSP-UANATACA",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.3",
+                                                              "x500_name": "commonName",
+                                                              "x500_short_name": "CN",
+                                                              "value": "UANATACA CA1 2016",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.97",
+                                                              "x500_name": "organizationIdentifier",
+                                                              "x500_short_name": null,
+                                                              "value": "VATES-A66721499",
+                                                              "charset": "UTF8_STRING"
+                                                          }
+                                                      ]
+                                                  },
+                                                  "this_update": {
+                                                      "option": "UTC_TIME",
+                                                      "utc": true,
+                                                      "value": "2021-03-11T17:39:24"
+                                                  },
+                                                  "next_update": {
+                                                      "option": "UTC_TIME",
+                                                      "utc": true,
+                                                      "value": "2021-03-18T17:39:24"
+                                                  },
+                                                  "extensions": [
+                                                      {
+                                                          "oid": "2.5.29.35",
+                                                          "name": "authorityKeyIdentifier",
+                                                          "critical": false,
+                                                          "value": {
+                                                              "key_identifier": "2d71efb0637ff5fde08322447f441030814f4de5",
+                                                              "authority_cert_issuer": null,
+                                                              "authority_cert_serial_number": null
+                                                          }
+                                                      },
+                                                      {
+                                                          "oid": "2.5.29.20",
+                                                          "name": "cRLNumber",
+                                                          "critical": false,
+                                                          "value": "508181"
+                                                      }
+                                                  ]
+                                              }
+                                          },
+                                          {
+                                              "sources": {
+                                                  "INTERNET": [
+                                                      {
+                                                          "url": "http://crl1.uanataca.com/public/pki/crl/CA2subordinada.crl"
+                                                      }
+                                                  ]
+                                              },
+                                              "data_uri": "/crls?documentid=e09ec1e970388f36&key=3123b16ffd4f77cc49de63cc15956961c9b54bf254f6b9de3c41396e84919111",
+                                              "self": 1,
+                                              "issuer": 2,
+                                              "crl": {
+                                                  "version": 1,
+                                                  "signature_algorithm": {
+                                                      "oid": "1.2.840.113549.1.1.11",
+                                                      "name": "sha256WithRSAEncryption",
+                                                      "parameters": null
+                                                  },
+                                                  "issuer": {
+                                                      "x500name": "2.5.4.97=VATES-A66721499,CN=UANATACA CA2 2016,OU=TSP-UANATACA,O=UANATACA S.A.,L=Barcelona (see current address at www.uanataca.com/address),C=ES",
+                                                      "items": [
+                                                          {
+                                                              "oid": "2.5.4.6",
+                                                              "x500_name": "country",
+                                                              "x500_short_name": "C",
+                                                              "value": "ES",
+                                                              "charset": "PRINTABLE_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.7",
+                                                              "x500_name": "locality",
+                                                              "x500_short_name": "L",
+                                                              "value": "Barcelona (see current address at www.uanataca.com/address)",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.10",
+                                                              "x500_name": "organization",
+                                                              "x500_short_name": "O",
+                                                              "value": "UANATACA S.A.",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.11",
+                                                              "x500_name": "organizationalUnit",
+                                                              "x500_short_name": "OU",
+                                                              "value": "TSP-UANATACA",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.3",
+                                                              "x500_name": "commonName",
+                                                              "x500_short_name": "CN",
+                                                              "value": "UANATACA CA2 2016",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.97",
+                                                              "x500_name": "organizationIdentifier",
+                                                              "x500_short_name": null,
+                                                              "value": "VATES-A66721499",
+                                                              "charset": "UTF8_STRING"
+                                                          }
+                                                      ]
+                                                  },
+                                                  "this_update": {
+                                                      "option": "UTC_TIME",
+                                                      "utc": true,
+                                                      "value": "2021-03-10T03:08:38"
+                                                  },
+                                                  "next_update": {
+                                                      "option": "UTC_TIME",
+                                                      "utc": true,
+                                                      "value": "2021-03-17T03:08:38"
+                                                  },
+                                                  "extensions": [
+                                                      {
+                                                          "oid": "2.5.29.35",
+                                                          "name": "authorityKeyIdentifier",
+                                                          "critical": false,
+                                                          "value": {
+                                                              "key_identifier": "7d57e76073ce0746a9e2a368f0e111b2749273fd",
+                                                              "authority_cert_issuer": null,
+                                                              "authority_cert_serial_number": null
+                                                          }
+                                                      },
+                                                      {
+                                                          "oid": "2.5.29.20",
+                                                          "name": "cRLNumber",
+                                                          "critical": false,
+                                                          "value": "508147"
+                                                      }
+                                                  ]
+                                              }
+                                          },
+                                          {
+                                              "sources": {
+                                                  "INTERNET": [
+                                                      {
+                                                          "url": "http://crl1.uanataca.com/public/pki/crl/arl_uanataca.crl"
+                                                      }
+                                                  ]
+                                              },
+                                              "data_uri": "/crls?documentid=e09ec1e970388f36&key=f58ebd128216383ba8c4ded175b1de1d643d75edb811b052fa4e176609475fb9",
+                                              "self": 2,
+                                              "issuer": null,
+                                              "crl": {
+                                                  "version": 1,
+                                                  "signature_algorithm": {
+                                                      "oid": "1.2.840.113549.1.1.11",
+                                                      "name": "sha256WithRSAEncryption",
+                                                      "parameters": null
+                                                  },
+                                                  "issuer": {
+                                                      "x500name": "2.5.4.97=VATES-A66721499,CN=UANATACA ROOT 2016,OU=TSP-UANATACA,O=UANATACA S.A.,L=Barcelona (see current address at www.uanataca.com/address),C=ES",
+                                                      "items": [
+                                                          {
+                                                              "oid": "2.5.4.6",
+                                                              "x500_name": "country",
+                                                              "x500_short_name": "C",
+                                                              "value": "ES",
+                                                              "charset": "PRINTABLE_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.7",
+                                                              "x500_name": "locality",
+                                                              "x500_short_name": "L",
+                                                              "value": "Barcelona (see current address at www.uanataca.com/address)",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.10",
+                                                              "x500_name": "organization",
+                                                              "x500_short_name": "O",
+                                                              "value": "UANATACA S.A.",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.11",
+                                                              "x500_name": "organizationalUnit",
+                                                              "x500_short_name": "OU",
+                                                              "value": "TSP-UANATACA",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.3",
+                                                              "x500_name": "commonName",
+                                                              "x500_short_name": "CN",
+                                                              "value": "UANATACA ROOT 2016",
+                                                              "charset": "UTF8_STRING"
+                                                          },
+                                                          {
+                                                              "oid": "2.5.4.97",
+                                                              "x500_name": "organizationIdentifier",
+                                                              "x500_short_name": null,
+                                                              "value": "VATES-A66721499",
+                                                              "charset": "UTF8_STRING"
+                                                          }
+                                                      ]
+                                                  },
+                                                  "this_update": {
+                                                      "option": "UTC_TIME",
+                                                      "utc": true,
+                                                      "value": "2020-10-16T08:58:55"
+                                                  },
+                                                  "next_update": {
+                                                      "option": "UTC_TIME",
+                                                      "utc": true,
+                                                      "value": "2021-04-14T08:58:55"
+                                                  },
+                                                  "extensions": [
+                                                      {
+                                                          "oid": "2.5.29.35",
+                                                          "name": "authorityKeyIdentifier",
+                                                          "critical": false,
+                                                          "value": {
+                                                              "key_identifier": "552cf1bca15eb9eea02f8857105bfc96f7919a2c",
+                                                              "authority_cert_issuer": null,
+                                                              "authority_cert_serial_number": null
+                                                          }
+                                                      },
+                                                      {
+                                                          "oid": "2.5.29.20",
+                                                          "name": "cRLNumber",
+                                                          "critical": false,
+                                                          "value": "15"
+                                                      }
+                                                  ]
+                                              }
+                                          }
+                                      ],
+                                      "ocsps": [
+                                          {
+                                              "sources": {
+                                                  "INTERNET": [
+                                                      {
+                                                          "url": "http://ocsp1.uanataca.com/public/pki/ocsp/"
+                                                      }
+                                                  ]
+                                              },
+                                              "data_uri": null,
+                                              "self": 0,
+                                              "issuer": 3,
+                                              "ocsp": {
+                                                  "version": 1,
+                                                  "responder_id": {
+                                                      "option": "KEY",
+                                                      "value": "e4762f3df6962e2073bf6fd912a9f0bd3c64b27e"
+                                                  },
+                                                  "produced_at": {
+                                                      "option": "GENERAL_TIME",
+                                                      "utc": true,
+                                                      "value": "2021-03-16T14:41:07"
+                                                  },
+                                                  "signature_algorithm": {
+                                                      "oid": "1.2.840.113549.1.1.11",
+                                                      "name": "sha256WithRSAEncryption",
+                                                      "parameters": null
+                                                  },
+                                                  "response_extensions": [],
+                                                  "responses": [
+                                                      {
+                                                          "cert_id": {
+                                                              "hash_algorithm": {
+                                                                  "oid": "1.3.14.3.2.26",
+                                                                  "name": "sha1",
+                                                                  "parameters": null
+                                                              },
+                                                              "issuer_name_hash": "496287c7b075c8621df6a5103eb4234e8bc8ac9d",
+                                                              "issuer_key_hash": "7d57e76073ce0746a9e2a368f0e111b2749273fd",
+                                                              "serial_number": {
+                                                                  "hex": "0ecfcf5062b82022",
+                                                                  "integer": "1067299580870664226"
+                                                              }
+                                                          },
+                                                          "cert_status": {
+                                                              "option": "GOOD",
+                                                              "revoked_info": null
+                                                          },
+                                                          "this_update": {
+                                                              "option": "GENERAL_TIME",
+                                                              "utc": true,
+                                                              "value": "2021-03-16T14:41:07"
+                                                          },
+                                                          "next_update": {
+                                                              "option": "GENERAL_TIME",
+                                                              "utc": true,
+                                                              "value": "2021-03-16T14:51:07"
+                                                          },
+                                                          "single_extensions": []
+                                                      }
+                                                  ]
+                                              }
+                                          }
+                                      ]
+                                  }
+                              }
+                          ]
+                      },
+                      "errors": [
+                          {
+                              "where": "x509/extensions/qcStatements/QcPDS",
+                              "what": "INVALID_ENCODING"
+                          },
+                          {
+                              "where": "x509/extensions/qcStatements/QcPDS",
+                              "what": "INVALID_ENCODING"
+                          }
+                      ],
+                      "data": {
+                          "lang": "en",
+                          "upload_time": "2021-03-16T14:40:56.565469",
+                          "outformat": "json",
+                          "filename": "Doc2_signed.pdf",
+                          "headers": {
+                              "CONTENT-LENGTH": "109891",
+                              "ACCEPT-ENCODING": "gzip, deflate, br",
+                              "X-FORWARDED-FOR": "212.230.233.228",
+                              "HOST": "vol.uanataca.com",
+                              "ACCEPT": "*/*",
+                              "USER-AGENT": "PostmanRuntime/7.26.8",
+                              "CONNECTION": "close",
+                              "X-REAL-IP": "212.230.233.228",
+                              "CONTENT-TYPE": "multipart/form-data; boundary=--------------------------682822153464893463268846",
+                              "AUTHORIZATION": "Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu",
+                              "POSTMAN-TOKEN": "fb0fe9b1-12e5-4435-b7d7-29a83ca6e38f"
+                          },
+                          "document_hash_type": "sha256",
+                          "template": "report",
+                          "report_uri": "/reports?documentid=e09ec1e970388f36",
+                          "verification_date": null,
+                          "documentid": "e09ec1e970388f36",
+                          "document_hash": "e09ec1e970388f369819cc0ede3569f76ff959426cfbaa8fc4ce4dc52c8fe722"
+                      },
+                      "messages": {
+                          "TIMESTAMP_VERIFIED": "The document has not been modified after the application of the timestamp",
+                          "INVALID_CONTENT_TYPE_ATTRIBUTE": "Digital signature attribute is not compliant (contentType)",
+                          "MULTIPLE_SIGNING_TIME_ATTRIBUTE": "Verification date is declared multiple times (signingTime)",
+                          "REVOKED": "Certificate revoked",
+                          "SIGNATURE_TIMESTAMP_OK": "Valid timestamp",
+                          "UNKNOWN_REVOCATION_INFO": "Revocation information is not available",
+                          "UNSUPPORTED_ALGORITHM": "Unsupported signing algorithm",
+                          "UNTRUSTED": "Untrusted CA certificate",
+                          "CE2011130EU": "Signature complies with EC Decision 2011/130/EU",
+                          "NOT_YET_VALID": "Certificate is not yet valid",
+                          "NOTCE2011130EU": "Signature not complies with EC Decision 2011/130/EU",
+                          "UNKNOWN_ISSUER": "Certificate issued by an unknown authority",
+                          "CONTENT_TIMESTAMP_OK": "Valid timestamp",
+                          "INVALID_CERTIFICATE_REF": "References to certificates are incorrect",
+                          "SIGNATURE_TIMESTAMP_ERROR": "Invalid timestamp",
+                          "SIGNING_KEY_LESS_THAN_2048_BITS": "The signature key has a length of less than 2048 bits",
+                          "NO_CA_BASIC_CONSTRAINTS": "Certificate root without attributes of CA",
+                          "INDETERMINATE_VALIDATION_TIME": "Verification date is undetermined",
+                          "SIGNED_DATA_NOT_FOUND": "Signed data is not present",
+                          "NO_OCSP_SIGNING_USAGE": "Certificate used to sign OCSP response is not suitable for the purpose",
+                          "SIGNATURE_VERIFIED": "The document has not been modified after signature",
+                          "INVALID_TIMESTAMP": "Invalid timestamp",
+                          "CONTENT_TIMESTAMP_ERROR": "Invalid timestamp",
+                          "NO_CERTIFICATE_SIGNING_USAGE": "Certificate issued by a CA not suitable for the purpose",
+                          "XML_SCHEMA_MISMATCH": "The XML file does not respect the XAdES/XMLDSIG schema",
+                          "SIGNING_CERTIFICATE_V1": "The reference to the signature certificate uses an obsolete format (signingCertificate v1)",
+                          "NO_TIMESTAMPING_USAGE": "The TSA certificate used to issue the timestamp is not suitable for the purpose",
+                          "NO_CRL_SIGNING_USAGE": "Certificate used to sign the CRL is not suitable for the purpose",
+                          "INVALID_SIGNATURE": "Invalid digital signature",
+                          "TRUSTED": "Trusted CA certificate",
+                          "SUSPENDED": "Certificate suspended",
+                          "INVALID_SIGNING_CERTIFICATE_REF": "Reference to the signature certificate is incorrect",
+                          "WEAK_HASHING_ALGORITHM": "The document digest was calculated using an weak algorithm",
+                          "NO_SIGNING_CERTIFICATE": "Signing certificate is not present",
+                          "EXPIRED": "Certificate expired",
+                          "NO_SIGNING_CERTIFICATE_REF": "Signing certificate reference is not present",
+                          "SIGNING_CERTIFICATE_REF_FOUND": "Reference to the signature certificate is valid"
+                      },
+                      "validation": {
+                          "signatures": [
+                              {
+                                  "data": ".report.annotations[0].signature.signatures[0]",
+                                  "type": "signature",
+                                  "status": {
+                                      "": [
+                                          "SUCCESS:SIGNATURE_VERIFIED"
+                                      ],
+                                      ".validation.signatures[0].certificates[0]": [
+                                          "ERROR:UNKNOWN_ISSUER",
+                                          "ERROR:UNKNOWN_REVOCATION_INFO"
+                                      ],
+                                      ".validation.signatures[0].timestamps[0]": [
+                                          "SUCCESS:SIGNATURE_TIMESTAMP_OK"
+                                      ]
+                                  },
+                                  "time": "2020-11-16T15:24:17+00:00",
+                                  "timestamps": [
+                                      {
+                                          "data": ".report.annotations[0].signature.signatures[0].unsigned_attributes[0].value.signature.signatures[0]",
+                                          "type": "signature_timestamp",
+                                          "status": {
+                                              "": [
+                                                  "SUCCESS:TIMESTAMP_VERIFIED"
+                                              ],
+                                              ".validation.signatures[0].timestamps[0].certificates[1]": [
+                                                  "SUCCESS:TRUSTED"
+                                              ]
+                                          },
+                                          "time": "2020-11-16T15:24:17+00:00",
+                                          "tst_info": ".report.annotations[0].signature.signatures[0].unsigned_attributes[0].value.tst_info",
+                                          "certificate_refs": {
+                                              "v1": [],
+                                              "v2": [
+                                                  ".report.annotations[0].signature.certificates[1]"
+                                              ]
+                                          },
+                                          "certificates": [
+                                              {
+                                                  "data": ".report.annotations[0].signature.certificates[1]",
+                                                  "type": "certificate",
+                                                  "status": {},
+                                                  "policies": [
+                                                      "TIMESTAMPING"
+                                                  ],
+                                                  "path_length": 1,
+                                                  "revocation_info": {
+                                                      "ocsp_no_check": false,
+                                                      "ocsp": {
+                                                          "type": "ocsp",
+                                                          "issuer": 2,
+                                                          "issuing_time": "2021-03-16 14:41:07+00:00",
+                                                          "data": ".report.annotations[0].signature.ocsps[0]",
+                                                          "response": ".report.annotations[0].signature.ocsps[0].ocsp.responses[0]",
+                                                          "status": "ok",
+                                                          "sources": {
+                                                              "INTERNET": [
+                                                                  {
+                                                                      "url": "http://ocsp1.uanataca.com/public/pki/ocsp/"
+                                                                  }
+                                                              ]
+                                                          }
+                                                      },
+                                                      "crl_no_check": false,
+                                                      "crl": {
+                                                          "type": "crl",
+                                                          "issuer": 1,
+                                                          "issuing_time": "2021-03-10 03:08:38+00:00",
+                                                          "data": ".report.annotations[0].signature.crls[1]",
+                                                          "status": "ok",
+                                                          "sources": {
+                                                              "INTERNET": [
+                                                                  {
+                                                                      "url": "http://crl1.uanataca.com/public/pki/crl/CA2subordinada.crl"
+                                                                  }
+                                                              ]
+                                                          }
+                                                      }
+                                                  },
+                                                  "content_depth": 0,
+                                                  "issuer": 1,
+                                                  "sources": {
+                                                      "DOCUMENT": [
+                                                          {}
+                                                      ],
+                                                      "STORE": [
+                                                          {
+                                                              "TSL": 1540315182.924374,
+                                                              "chain": {},
+                                                              "TSL_/opt/bit4id/gui/var/tmp/tsl/ES": {},
+                                                              "trusted": {},
+                                                              "tsa": {}
+                                                          }
+                                                      ]
+                                                  }
+                                              },
+                                              {
+                                                  "data": ".report.annotations[0].signature.certificates[2]",
+                                                  "type": "certificate",
+                                                  "status": {
+                                                      "": [
+                                                          "SUCCESS:TRUSTED"
+                                                      ]
+                                                  },
+                                                  "policies": [
+                                                      "CA",
+                                                      "CERTIFICATE_SIGNING",
+                                                      "ROOT",
+                                                      "CRL_SIGNING"
+                                                  ],
+                                                  "path_length": 2,
+                                                  "revocation_info": {
+                                                      "ocsp_no_check": true,
+                                                      "ocsp": null,
+                                                      "crl_no_check": true,
+                                                      "crl": null
+                                                  },
+                                                  "content_depth": 0,
+                                                  "issuer": null,
+                                                  "sources": {
+                                                      "STORE": [
+                                                          {
+                                                              "trusted": {},
+                                                              "TSL": 1540315182.924374,
+                                                              "TSL_/opt/bit4id/gui/var/tmp/tsl/ES": {},
+                                                              "chain": {}
+                                                          }
+                                                      ]
+                                                  }
+                                              },
+                                              {
+                                                  "data": ".report.annotations[0].signature.certificates[3]",
+                                                  "type": "certificate",
+                                                  "status": {},
+                                                  "policies": [
+                                                      "OCSP_SIGNING"
+                                                  ],
+                                                  "path_length": 3,
+                                                  "revocation_info": {
+                                                      "ocsp_no_check": true,
+                                                      "ocsp": null,
+                                                      "crl_no_check": false,
+                                                      "crl": {
+                                                          "type": "crl",
+                                                          "issuer": 1,
+                                                          "issuing_time": "2021-03-10 03:08:38+00:00",
+                                                          "data": ".report.annotations[0].signature.crls[1]",
+                                                          "status": "ok",
+                                                          "sources": {
+                                                              "INTERNET": [
+                                                                  {
+                                                                      "url": "http://crl1.uanataca.com/public/pki/crl/CA2subordinada.crl"
+                                                                  }
+                                                              ]
+                                                          }
+                                                      }
+                                                  },
+                                                  "content_depth": 0,
+                                                  "issuer": 1,
+                                                  "sources": {
+                                                      "INTERNET": [
+                                                          {
+                                                              "url": "http://ocsp1.uanataca.com/public/pki/ocsp/"
+                                                          }
+                                                      ]
+                                                  }
+                                              }
+                                          ],
+                                          "content_depth": 0,
+                                          "signing_certificate": ".report.annotations[0].signature.certificates[1]",
+                                          "stamps": 0,
+                                          "index": 0
+                                      }
+                                  ],
+                                  "certificate_refs": {
+                                      "v1": [
+                                          ".report.annotations[0].signature.certificates[0]"
+                                      ],
+                                      "v2": []
+                                  },
+                                  "certificates": [
+                                      {
+                                          "data": ".report.annotations[0].signature.certificates[0]",
+                                          "type": "certificate",
+                                          "status": {
+                                              "": [
+                                                  "ERROR:UNKNOWN_ISSUER",
+                                                  "ERROR:UNKNOWN_REVOCATION_INFO"
+                                              ]
+                                          },
+                                          "policies": [
+                                              "SIGNING"
+                                          ],
+                                          "path_length": 1,
+                                          "revocation_info": {
+                                              "ocsp_no_check": false,
+                                              "ocsp": null,
+                                              "crl_no_check": false,
+                                              "crl": null
+                                          },
+                                          "content_depth": 0,
+                                          "issuer": null,
+                                          "sources": {
+                                              "DOCUMENT": [
+                                                  {}
+                                              ]
+                                          }
+                                      }
+                                  ],
+                                  "content_depth": 0,
+                                  "signing_certificate": ".report.annotations[0].signature.certificates[0]",
+                                  "index": 0,
+                                  "name": "Name Surname1 Surname2",
+                                  "reason": null,
+                                  "location": null,
+                                  "level": "PAdES-T"
+                              }
+                          ],
+                          "timestamps": [],
+                          "result": "ERROR"
+                      },
+                      "profile": [
+                          {
+                              "type": "PAdES",
+                              "name": "PAdES",
+                              "description": ""
+                          }
+                      ]
+                  }
+        404:
+          description: Invalid document
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                description: The response status id
           examples:
             application/json:
                 {
-                    "report": {
-                        "now": "2021-02-03T14:49:23.488006",
-                        "type": "PAdES",
-                        "document_uri": "/contents?documentid=e09ec1e970388f36",
-                        "annotations": [(...)]
-                      }
+                    "code": "404 Not Found"
                 }
+      x-codeSamples:
+        - lang: 'curl'
+          source: |
+                  curl -i -X GET 'https://vol.uanataca.com/api/documents/e09ec1e970388f36/verify/report?type=json&template=report&lang=en' \
+                    -H 'Authorization: Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu'
+        - lang: 'JavaScript'
+          source: |
+                  const query = new URLSearchParams({
+                    type: 'json',
+                    template: 'report',
+                    lang: 'en'
+                  }).toString();
+
+                  const resp = await fetch(
+                    'https://vol.uanataca.com/api/documents/e09ec1e970388f36/verify/report?' + query,
+                    {
+                      method: 'GET',
+                      headers: {Authorization: 'Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu'}
+                    }
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'Python'
+          source: |
+                  import requests
+
+                  url = "https://vol.uanataca.com/api/documents/e09ec1e970388f36/verify/report"
+
+                  query = {
+                    "type": "json",
+                    "template": "report",
+                    "lang": "en"
+                  }
+
+                  headers = {"Authorization": "Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu"}
+
+                  response = requests.get(url, headers=headers, params=query)
+
+                  data = response.json()
+                  print(data)
+        - lang: 'Node.js'
+          source: |
+                  const fetch = require('node-fetch');
+
+                  const query = new URLSearchParams({
+                    type: 'json',
+                    template: 'report',
+                    lang: 'en'
+                  }).toString();
+
+                  const resp = await fetch(
+                    'https://vol.uanataca.com/api/documents/e09ec1e970388f36/verify/report?' + query,
+                    {
+                      method: 'GET',
+                      headers: {Authorization: 'Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu'}
+                    }
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'C#'
+          source: |
+                  using System;
+                  using System.Net.Http;
+                  using System.Threading.Tasks;
+
+                  public class Program
+                  {
+                    public static async Task Main(string[] args)
+                    {
+                      using (var client = new HttpClient())
+                      {
+                        client.DefaultRequestHeaders.Add("Authorization", "Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu");
+                        var request = await client.GetAsync("https://vol.uanataca.com/api/documents/e09ec1e970388f36/verify/report?type=json&template=report&lang=en");
+                        var response = await request.Content.ReadAsStringAsync();
+
+                        Console.WriteLine(response);
+                      }
+                    }
+                  }
   #############               
   /api/documents/{id}:
     get: 
@@ -118,8 +2492,98 @@ paths:
         200:
           description: Successful Response
           examples:
-            application/pdf:
-              The original document ready to download.
+            text/plain:
+                " %PDF-1.7\n
+                  %����\n
+                  1 0 obj\n
+                  <</Type/Catalog/Pages 2 0 R/Lang(es-ES) /StructTreeRoot 10 0 R/MarkInfo<</Marked true>>/Metadata 26 0 R/ViewerPreferences 27 0 R>>\n
+                  endobj\n\n
+
+                  2 0 obj\n
+                  <</Type/Pages/Count 1/Kids[ 3 0 R] >>\n
+                  endobj\n\n
+
+                  3 0 obj\n
+                  <</Type/Page/Parent 2 0 R/Resources<</Font<</F1 5 0 R>>/ExtGState<</GS7 7 0 R/GS8 8 0 R>>/ProcSet[/PDF/Text/ImageB/ImageC/ImageI] >>/MediaBox[ 0 0 595.32 841.92] /Contents 4 0 R/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>/Tabs/S/StructParents 0>>\n
+                  endobj\n
+                  (...)\n
+                "
+        404:
+          description: Invalid document
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                description: The response status id
+          examples:
+            application/json:
+                {
+                    "code": "404 Not Found"
+                }
+      x-codeSamples:
+        - lang: 'curl'
+          source: |
+                  curl -i -X GET https://vol.uanataca.com/api/documents/e09ec1e970388f36 \
+                    -H 'Authorization: string'
+        - lang: 'JavaScript'
+          source: |
+                  const resp = await fetch(
+                    'https://vol.uanataca.com/api/documents/e09ec1e970388f36',
+                    {
+                      method: 'GET',
+                      headers: {Authorization: 'Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu'}
+                    }
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'Python'
+          source: |
+                  import requests
+
+                  url = "https://vol.uanataca.com/api/documents/e09ec1e970388f36"
+
+                  headers = {"Authorization": "Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu"}
+
+                  response = requests.get(url, headers=headers)
+
+                  data = response.json()
+                  print(data)
+        - lang: 'Node.js'
+          source: |
+                  const fetch = require('node-fetch');
+
+                  const resp = await fetch(
+                    'https://vol.uanataca.com/api/documents/e09ec1e970388f36',
+                    {
+                      method: 'GET',
+                      headers: {Authorization: 'Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu'}
+                    }
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'C#'
+          source: |
+                  using System;
+                  using System.Net.Http;
+                  using System.Threading.Tasks;
+
+                  public class Program
+                  {
+                    public static async Task Main(string[] args)
+                    {
+                      using (var client = new HttpClient())
+                      {
+                        client.DefaultRequestHeaders.Add("Authorization", "Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu");
+                        var request = await client.GetAsync("https://vol.uanataca.com/api/documents/e09ec1e970388f36");
+                        var response = await request.Content.ReadAsStringAsync();
+
+                        Console.WriteLine(response);
+                      }
+                    }
+                  }
   #############
   /reports:
     get: 
@@ -144,5 +2608,88 @@ paths:
         200:
           description: Successful Response
           examples:
-            application/pdf:
-              The report file ready to download.
+            text/plain:
+                " %PDF-1.4\n
+                  %���� ReportLab Generated PDF document http://www.reportlab.com\n
+                  1 0 obj\n
+                  << /F1 2 0 R /F2 3 0 R /F3 4 0 R /F4 5 0 R /F5 7 0 R /F6 9 0 R \n
+                    /F7 18 0 R >>\n
+                  endobj\n
+                  2 0 obj\n
+                  << /BaseFont /Helvetica /Encoding /WinAnsiEncoding /Name /F1 /Subtype /Type1 /Type /Font >>\n
+                  endobj\n
+                  3 0 obj\n
+                  << /BaseFont /Times-Italic /Encoding /WinAnsiEncoding /Name /F2 /Subtype /Type1 /Type /Font >>\n
+                  endobj\n
+                "
+      x-codeSamples:
+        - lang: 'curl'
+          source: |
+                  curl -i -X GET https://vol.uanataca.com/reports?documentid=e09ec1e970388f36' \
+                    -H 'Authorization: Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu'
+        - lang: 'JavaScript'
+          source: |
+                  const query = new URLSearchParams({documentid: 'e09ec1e970388f36'}).toString();
+
+                  const resp = await fetch(
+                    'https://vol.uanataca.com/reports?' + query,
+                    {
+                      method: 'GET',
+                      headers: {Authorization: 'Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu'}
+                    }
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'Python'
+          source: |
+                  import requests
+
+                  url = "https://vol.uanataca.com/reports"
+
+                  query = {
+                    "documentid": "e09ec1e970388f36"
+                  }
+
+                  headers = {"Authorization": "Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu"}
+
+                  response = requests.get(url, headers=headers, params=query)
+
+                  data = response.json()
+                  print(data)
+        - lang: 'Node.js'
+          source: |
+                  const fetch = require('node-fetch');
+
+                  const query = new URLSearchParams({documentid: 'e09ec1e970388f36'}).toString();
+
+                  const resp = await fetch(
+                    'https://vol.uanataca.com/reports?' + query,
+                    {
+                      method: 'GET',
+                      headers: {Authorization: 'Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu'}
+                    }
+                  );
+
+                  const data = await resp.text();
+                  console.log(data);
+        - lang: 'C#'
+          source: |
+                  using System;
+                  using System.Net.Http;
+                  using System.Threading.Tasks;
+
+                  public class Program
+                  {
+                    public static async Task Main(string[] args)
+                    {
+                      using (var client = new HttpClient())
+                      {
+                        client.DefaultRequestHeaders.Add("Authorization", "Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu");
+                        var request = await client.GetAsync("https://vol.uanataca.com/reports?documentid=e09ec1e970388f36");
+                        var response = await request.Content.ReadAsStringAsync();
+
+                        Console.WriteLine(response);
+                      }
+                    }
+                  }
