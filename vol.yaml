@@ -3,7 +3,7 @@ info:
   version: '1.0'
   title: UANATACA VOL API DOCUMENTATION
   x-logo:
-      url: https://i.ibb.co/kKWg3Fj/vol-logo.png
+      url: https://i.ibb.co/Cnn9bjJ/vol-logo.png
       altText: Vol logo
   description: 
       $ref: ./vol_gui.md
