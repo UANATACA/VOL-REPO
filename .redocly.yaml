@@ -89,4 +89,4 @@ referenceDocs:
       backgroundColor: '#242424'
       borderRadius: '10px'         
     logo:
-      gutter: '20px'
+      gutter: '0px'
