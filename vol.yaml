@@ -12,12 +12,17 @@ host: vol.uanataca.com
 schemes: 
   - https
 
+x-tagGroups:
+  - name: API Reference
+    tags:
+      - Validation
+
 paths:
   /api/documents:
     post:
       summary: UPLOAD DOCUMENT
       tags:
-        - VOL API Calls
+        - Validation
       description: Allows the upload of a document that needs verification.
       produces:
         - application/json
@@ -128,7 +133,7 @@ paths:
     get: 
       summary: GET RESPONSE
       tags:
-        - VOL API Calls
+        - Validation
       description: Obtains the response of the verification process.
       produces:
         - application/json
@@ -2473,7 +2478,7 @@ paths:
     get: 
       summary: GET ORIGINAL DOCUMENT
       tags:
-        - VOL API Calls
+        - Validation
       description: Retrieves the original document previously uploaded.
       produces:
         - application/pdf  
@@ -2589,7 +2594,7 @@ paths:
     get: 
       summary: GET REPORT
       tags:
-        - VOL API Calls
+        - Validation
       description: Prints the verification report in a .pdf format file.
       produces:
         - application/pdf     
