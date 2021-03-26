@@ -5,7 +5,7 @@
 The VOL (On-Line Verifier) allows the verification of digital signed documents.
 <br></br>
 
-![img](https://i.ibb.co/pXWHTYD/vol-wkf.png)
+![img](https://raw.githubusercontent.com/UANATACA/VOL-REPO/main/img/vol_hiw.png?token=ATF574TSYH5QNMNK6K5I7P3ALXINS)
 
 ## Authentication
 
