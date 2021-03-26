@@ -11,6 +11,7 @@ referenceDocs:
       - lang: "Python"
       - lang: "Node.js"
       - lang: "C#"
+  hideRequestPayloadSample: true  
   theme:
     spacing:
       sectionHorizontal: 80
