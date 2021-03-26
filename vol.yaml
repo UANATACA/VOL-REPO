@@ -3,7 +3,7 @@ info:
   version: '1.0'
   title: UANATACA VOL API DOCUMENTATION
   x-logo:
-      url: https://i.ibb.co/Cnn9bjJ/vol-logo.png
+      url: https://raw.githubusercontent.com/UANATACA/TSA-REPO/main/img/tsa_logo.png?token=ATF574VFU6K26X7S3JIME6TALW7LG
       altText: Vol logo
   description: 
       $ref: ./vol_gui.md
