@@ -210,13 +210,221 @@ This is an example with cURL:
 	1 | curl -H "Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=" -X GET https://vol.uanataca.com/api/documents/06618cc5d920cb09/content
 
 
-# Response
-
-<div style="text-align: justify">
-Uanataca VOL exposes a custom website to validate documents.
-</div>
+# Validation response structure
 
 
+
+- Report
+- Errors
+- Data
+- Messages
+- Validation
+
+donde los atributos son:
+
+
+* **`report`**
+
+    * **`now`**
+
+        date & time from the verification
+
+    * **`type`**
+
+        document type
+
+    * **`document_uri`**
+
+        ruta para recuperar el documento a través del interfaz web
+
+    * **`signed_data`**
+
+        objeto `signed_data` ya descirto en la 
+        [estructura de firma](#struttura-di-firma)
+
+
+* **`errors`**
+
+    Lista de los errores encontrados durante la validación. Cada uno contiene:
+
+    * **`where`**
+
+        identificativo de donde ha sido encontrado el error
+
+    * **`what`**
+
+        identificativo del mensaje de error, [verifica `mensajes`](#messages)
+
+
+* **`data`**
+
+    Contiene información relativa a la carga del archivo en el sistema:
+
+    * **`upload_time`**
+
+        date & time from the document upload
+
+    * **`outformat`**
+
+        formato de la respuesta
+
+    * **`filename`**
+
+        nombre del archivo cargado
+
+    * **`headers`**
+
+        header utilizados en la solicitud HTTP de carga (método POST)
+
+    * **`document_hash_type`**
+
+        algoritmo de hash utilizado
+
+    * **`template`**
+
+        tipo de plantilla solicitada para la validación
+
+    * **`report_uri`**
+
+        ruta para recuperar el informe de validación a través del interfaz web
+
+
+    * **`verification_date`**
+
+        fecha en la que se hace la valicación (opcional en la solicitud)
+
+    * **`documentid`**
+
+        el **document-id**, está representado por las primeras diecieséis 
+		cifras hexadecimales del hash
+
+    * **`document_hash`**
+
+        hash completo del documento según el algoritmo utilizado
+
+
+* **`messages`**
+
+    Contiene códigos de país (*ISO 3166-1 alpha-2*).
+
+    La propiedad `what` de los errores se refiere a las claves de este objeto.
+
+
+* **`validation`**
+
+    Contiene los resultados de las validaciones sobre cada atributo.
+
+    * **`profile`**
+
+        tipo de perfil utilizado en la validación
+
+    * **`signatures`**
+
+        contiene los resultados de la validación de las firmas
+
+        * **`data`**
+
+            la ruta JSON donde se encuentra la firma
+
+        * **`type`**
+
+            tipo de firma
+
+        * **`status`**
+
+            éxito de la validación
+
+        * **`time`**
+
+            fecha y hora de la validación
+
+        * **`timestamps`**
+
+            sellos de tiempo (opcional)
+
+        * **`certificate_refs`**
+
+            ruta JSON donde se encuentran los certificados utilizados para la firma,
+            ordenados según el número de versión
+
+        * **`certificates`**
+
+            lista de todos los certificados utilizados
+
+        * **`signing_certificate`**
+
+            certificaco utilizado para esta firma
+
+        * **`index`**
+
+            índice de esta firma dentro de la lista de todas las firmas
+            presentes en el documento (la numeración inicia desde cero)
+
+        * **`countersignatures`**
+
+            contrafirmas (si las hubiera)
+
+        * **`level`**
+
+            perfil de la firma (según aquellos previstos `eIDAS`)
+
+    * **`timestamps`**
+
+        contiene los resultados de la validación de los sellos de tiempo
+		(opcional)
+
+A continuación se muestra un ejemplo de estructura de validación:
+
+```json
+{
+  "report": {
+    "now": "2017-12-20T11:46:36.862950",
+    "type": "CAdES",
+    "document_uri": "/contents?documentid=c1cab389ac304222",
+    "signed_data": {…}
+  },
+  "errors": [
+    {
+      "where": "x509/extensions/qcStatements/QcPDS",
+      "what": "INVALID_ENCODING"
+    }
+  ],
+  "data": {
+    "upload_time": "2017-12-20T11:46:36.320074",
+    "outformat": "json",
+    "filename": "cades-text.p7m",
+    "headers": {
+      "CONTENT-LENGTH": "3402",
+      "ACCEPT": "*/*",
+      "USER-AGENT": "curl/7.47.0",
+      "HOST": "docky",
+      "EXPECT": "100-continue",
+      "CONTENT-TYPE": "multipart/form-data; boundary=------------------------f699eebb362e5038",
+      "AUTHORIZATION": "token bef3ba974d7c8e183a70d7264ba40890"
+    },
+    "document_hash_type": "sha256",
+    "template": "report",
+    "report_uri": "/reports?documentid=c1cab389ac304222",
+    "verification_date": null,
+    "documentid": "c1cab389ac304222",
+    "document_hash": "c1cab389ac30422251bd723f6b508930251f2e8b0e0ab62f4ffed256f2c68ef1"
+  },
+  "messages": {
+    "it": {
+      "INVALID_CONTENT_TYPE_ATTRIBUTE": "Atributo de la firma no conforme (contentType)",
+      "MULTIPLE_SIGNING_TIME_ATTRIBUTE": "Fecha y hora de la firma declarada más veces
+      (signingTime)",
+      …
+      "SIGNING_CERTIFICATE_REF_FOUND": "Referencia al certificado de firma válido"
+    }
+  },
+  "validation": {
+    "profile": "CAdES",
+    "signatures": […],
+    "timestamps": []
+  }
+}
+```
 
 # Postman collection
 
