@@ -1,9 +1,9 @@
 swagger: '2.0'
 info:
-  version: '1.0'
+  version: 'v1'
   title: UANATACA VOL API DOCUMENTATION
   x-logo:
-      url: https://raw.githubusercontent.com/UANATACA/VOL-REPO/main/img/vol_logo.png
+      url: https://github.com/UANATACA/VOL-REPO/raw/main/img/vol_logo.png
       altText: Vol logo
   description: 
       $ref: ./vol_gui.md

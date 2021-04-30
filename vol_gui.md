@@ -226,36 +226,36 @@ The validation response is a JSON object containig the following schema:
 
 > report
 
-* `now`: date & time from the verification
-* `type`: signature type
+* `now` : date & time from the verification
+* `type` : signature type
 	*  Enum: "PAdES", "XAdES", "CAdES"
-* `document_uri`: document uri
-* `annotations []`: array containing data from each signature. See description in [signature data](#signature-data)
+* `document_uri` : document uri
+* `annotations` : array containing data from each signature. See description in [signature data](#signature-data)
 
 
 > errors
 
 List of errors found in the validation process. Each error is composed by:
 
-* `where`: reference where the error was found
-* `what`: identifier of the error message. See [list of messages](#messages)
+* `where` : reference where the error was found
+* `what` : identifier of the error message. See [list of messages](#messages)
 
 
 > data
 
-* `lang`: date & time from the verification
-* `upload_time`: date & time from the document upload
-* `outformat`: response format
+* `lang` : date & time from the verification
+* `upload_time` : date & time from the document upload
+* `outformat` : response format
 	*  Enum: "json"
-* `filename`: nombre del archivo cargado
-* `headers`: header utilizados en la solicitud HTTP de carga (método POST)
-* `document_hash_type`: algoritmo de hash utilizado
-* `template`: tipo de plantilla solicitada para la validación
+* `filename` : nombre del archivo cargado
+* `headers` : header utilizados en la solicitud HTTP de carga (método POST)
+* `document_hash_type` : algoritmo de hash utilizado
+* `template` : tipo de plantilla solicitada para la validación
 	*  Enum: "json"
-* `report_uri`: ruta para recuperar el informe de validación a través del interfaz web
-* `verification_date`: fecha en la que se hace la valicación (opcional en la solicitud)
-* `documentid`: el **document-id**, está representado por las primeras diecieséis cifras hexadecimales del hash
-* `document_hash`: hash completo del documento según el algoritmo utilizado
+* `report_uri` : ruta para recuperar el informe de validación a través del interfaz web
+* `verification_date` : fecha en la que se hace la valicación (opcional en la solicitud)
+* `documentid` : el **document-id**, está representado por las primeras diecieséis cifras hexadecimales del hash
+* `document_hash` : hash completo del documento según el algoritmo utilizado
 
 
 > messages
@@ -303,8 +303,8 @@ List of errors found in the validation process. Each error is composed by:
 
 Contiene los resultados de las validaciones sobre cada atributo.
 
-* `signatures`: contiene los resultados de la validación de las firmas
-* `timestamps`: contiene los resultados de la validación de los sellos de tiempo
+* `signatures` : contiene los resultados de la validación de las firmas
+* `timestamps` : contiene los resultados de la validación de los sellos de tiempo
 * `result`:
 	* Enum: "SUCCESS"
 
@@ -313,9 +313,9 @@ Contiene los resultados de las validaciones sobre cada atributo.
 
 tipo de perfil utilizado en la validación
 
-* `type`: tipo de perfil utilizado en la validación
-* `name`:
-* `description`:
+* `type` : tipo de perfil utilizado en la validación
+* `name` :
+* `description` :
 
 
 A continuación se muestra un ejemplo de estructura de validación:
