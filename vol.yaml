@@ -158,9 +158,9 @@ paths:
       - in: query
         name: lang
         type: string
-        enum: [en, it]
+        enum: [en, es, it]
         required: true  
-        description: The report language (it - en)
+        description: The report language (en - es - it)
       - in: header
         name: Authorization
         required: true
