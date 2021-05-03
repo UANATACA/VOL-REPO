@@ -17,6 +17,32 @@ x-tagGroups:
     tags:
       - Validation
 
+tags:
+- name: "Validation"
+  description: "
+  
+<html>
+A token is a string that can be used in place of the Registration Authority Officer (RAO) credentials.</br>
+<table>
+  <tr>
+    <th>Method</th><th>Endpoint</th><th>Action</th>
+  </tr>
+  <tr>
+    <td>POST</td><td><a href='#tag/Validation/paths/~1api~1documents/post'>/documents</a></td><td>Upload a signed document</td>
+  </tr>
+  <tr>
+    <td>GET</td><td><a href='#tag/Validation/paths/~1api~1documents~1{id}~1verify~1report/get'>/documents/{id}/verify/report</a></td><td>Get the validation response</td>
+  </tr>
+  <tr>
+    <td>GET</td><td><a href='#tag/Validation/paths/~1api~1documents~1{id}/get'>/documents/{id}</a></td><td>Retrieve the original document uploaded</td>
+  </tr>
+ <tr>
+    <td>GET</td><td><a href='#tag/Validation/paths/~1reports/get'>/reports</a></td><td>Retrieve a report with the validation</td>
+  </tr>
+</table> 
+</html>
+  "
+  
 paths:
   /api/documents:
     post:
@@ -141,12 +167,12 @@ paths:
       - in: path
         name: id
         type: string
-        description: The code of the document to be verified, generated in the **UPLOAD DOCUMENT** call
+        description: The identifier of the document to be verified, generated in the <a href='#tag/Validation/paths/~1api~1documents/post'>upload document</a> call
         required: true
       - in: query
         name: type
         type: string
-        description: The report format (json - rml)
+        description: The response format
         enum: [json, rml]
         required: true
       - in: query
@@ -160,7 +186,7 @@ paths:
         type: string
         enum: [en, es, it]
         required: true  
-        description: The report language (en - es - it)
+        description: The reponse language
       - in: header
         name: Authorization
         required: true
@@ -2487,7 +2513,7 @@ paths:
         name: id
         type: string 
         required: true
-        description: The code of the document to be verified, generated in the **UPLOAD DOCUMENT** call
+        description: The identifier of the document to be verified, generated in the <a href='#tag/Validation/paths/~1api~1documents/post'>upload document</a> call
       - in: header
         name: Authorization
         required: true
@@ -2602,7 +2628,7 @@ paths:
       - in: query
         name: documentid
         type: string 
-        description: The `{id}`
+        description: The identifier of the document to be verified, generated in the <a href='#tag/Validation/paths/~1api~1documents/post'>upload document</a> call
         required: true
       - in: header
         name: Authorization
