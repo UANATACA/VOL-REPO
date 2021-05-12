@@ -12,6 +12,7 @@
     <link rel="icon" type="image/png" href="favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+
     <!--
     ReDoc uses font options from the parent element
     So override default browser styles
@@ -34,7 +35,7 @@
         --background-color-footer: #4B4A4B;
         --footer-color: #000000;
         --dropdown-text-color: #AAAAAA;
-        --text-color:#F8F8F8;
+        --text-color:#000000;
         --footer-text-color: #989898;
         --border-color: #AAAAAA;
         --fonts: Lato;
@@ -298,6 +299,10 @@
           line-height: 3;
           text-size-adjust: 100%;
         }
+
+		.menu-nav-list a:hover {
+          color: #F8F8F8;
+        }
       }
 
         /* HOVERABLE DROPDOWN */
@@ -318,7 +323,7 @@
         background-color: #DFDFDF;
         font-size:16px;
         text-align: center;
-        min-width: 210px;
+        min-width: 220px;
         box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
         padding: 0px 0px;
         z-index: 1;
@@ -326,7 +331,7 @@
 
       .dropdown-content a {
         padding: 12px 16px;
-        color: #989898;
+        color: #000000;
         text-decoration: none;
         display: block;
       }
@@ -335,8 +340,8 @@
       }
 
       .dropdown-content a:hover {
-        background-color: #D1D1D1; 
-        color: #989898;
+        background-color: #B1B1B1; 
+        color: #F8F8F8;
       }
 
       #nav span:after {
@@ -344,7 +349,7 @@
         height: 0;
         border: 0.313em solid transparent;
         border-bottom: none;
-        border-top-color: #f8f8f8;
+        border-top-color: #000000;
         content: '';
         vertical-align: middle;
         display: inline-block;
@@ -363,7 +368,7 @@
     <header class="main-header">
       <div class="container">
         <div class="logo">
-          <a href="https://developers.uanataca.com/" target="_self"> <img id="logoImg" alt="uana_logo" src="https://raw.githubusercontent.com/UANATACA/VOL-REPO/main/img/logo-uanataca-developers.png"/></a>
+          <a href="https://developers.uanataca.com/" target="_self"> <img id="logoImg" alt="uana_logo" src="https://raw.githubusercontent.com/UANATACA/TSA-REPO/main/img/logo-uanataca-developers.png"/></a>
         </div>
 
 
@@ -378,15 +383,15 @@
         <div class="main-nav">
           <ul class="menu">
             <div class="dropdown">
-            <li id="nav"><a href=" "><span>API References</span></a>
+            <li id="nav"><a href=" "><span>Uanataca API</span></a>
               <ul>
                   <div class="dropdown-content">
-                    <li><a href="https://signbox-uanataca-docs.redoc.ly">SignBox</a></li>
-                    <li><a href="https://oneshot-uanataca-docs.redoc.ly">One-Shot</a></li>
-                    <li><a href="https://ra-uanataca-docs.redoc.ly">RA</a></li>
-                    <li><a href="https://signcloud-uanataca-docs.redoc.ly">SignCloud</a></li>
-                    <li><a href="https://vol-uanataca-docs.redoc.ly">VOL</a></li>
-                    <li><a href="https://tsa-uanataca-docs.redoc.ly">TSA</a></li>
+                    <li><a href="https://signbox-uanataca-docs.redoc.ly">SignBox API</a></li>
+                    <li><a href="https://oneshot-uanataca-docs.redoc.ly">One-Shot API</a></li>
+                    <li><a href="https://signcloud-uanataca-docs.redoc.ly">SignCloud API</a></li>
+                    <li><a href="https://ra-uanataca-docs.redoc.ly">Registration Authority API</a></li>
+                    <li><a href="https://vol-uanataca-docs.redoc.ly">VOL API</a></li>
+                    <li><a href="https://tsa-uanataca-docs.redoc.ly">Timestamp API</a></li>
                   </div>
               </ul>
             </li>
@@ -397,12 +402,12 @@
 
         <!-- Mobile menu items list -->
         <ul class="menu-nav-list">
-          <li><a href="https://signbox-uanataca-docs.redoc.ly" target="_self">SignBox</a></li>
-          <li><a href="https://oneshot-uanataca-docs.redoc.ly" target="_self">One-Shot</a></li>
-          <li><a href="https://ra-uanataca-docs.redoc.ly" target="_self">RA</a></li>
-          <li><a href="https://signcloud-uanataca-docs.redoc.ly" target="_self">SignCloud</a></li>
-          <li><a href="https://vol-uanataca-docs.redoc.ly" target="_self">VOL</a></li>
-          <li><a href="https://tsa-uanataca-docs.redoc.ly" target="_self">TSA</a></li>
+          <li><a href="https://signbox-uanataca-docs.redoc.ly" target="_self">SignBox API</a></li>
+          <li><a href="https://oneshot-uanataca-docs.redoc.ly" target="_self">One-Shot API</a></li>
+          <li><a href="https://signcloud-uanataca-docs.redoc.ly" target="_self">SignCloud API</a></li>
+          <li><a href="https://ra-uanataca-docs.redoc.ly" target="_self">Registration Authority API</a></li>
+          <li><a href="https://vol-uanataca-docs.redoc.ly" target="_self">VOL API</a></li>
+          <li><a href="https://tsa-uanataca-docs.redoc.ly" target="_self">Timestamp API</a></li>
         </ul>
       
       </div>
@@ -418,7 +423,7 @@
         <span><a href="https://developers.uanataca.com/en/cookies-policy" class="footer-link2">Cookies policy</a></span>
 		    <div class="main-nav2">
           <div class="logo">
-            <img id="logoImg" alt="uana_logo2" src="https://raw.githubusercontent.com/UANATACA/VOL-REPO/main/img/logo-uanataca-developers2.png"/>
+            <img id="logoImg" alt="uana_logo2" src="https://raw.githubusercontent.com/UANATACA/TSA-REPO/main/img/logo-uanataca-developers2.png"/>
 		      </div>
 		    </div>
 	    </div>
