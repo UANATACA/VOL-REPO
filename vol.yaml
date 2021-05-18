@@ -63,7 +63,7 @@ paths:
       - in: header
         name: Authorization
         required: true
-        description: User credentials
+        description: Billing credentials
         type: string
       responses:
         201:
@@ -88,11 +88,14 @@ paths:
           source: |
                   curl -i -X POST \
                     https://vol.uanataca.com/api/documents \
-                    -H 'Authorization: Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu' \
+                    -H 'Authorization: Basic YmlsbGluZ191c2VybmFtZTpiaWxsaW5nX3Bhc3N3b3Jk' \
                     -H 'Content-Type: multipart/form-data' \
                     -F document=@sample_folder/document.pdf
         - lang: 'JavaScript'
           source: |
+                  var myHeaders = new Headers();
+                  myHeaders.append("Authorization", "Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu");
+                  
                   var formdata = new FormData();
                   formdata.append("document", fileInput.files[0], "sample_folder/document.pdf");
 
@@ -120,7 +123,7 @@ paths:
                   
                   headers = {
                     "Content-Type": "multipart/form-data",
-                    "Authorization": "Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu"
+                    "Authorization": "Basic YmlsbGluZ191c2VybmFtZTpiaWxsaW5nX3Bhc3N3b3Jk"
                   }
 
                   response = requests.request("POST", url, headers=headers, data=payload, files=files)
@@ -140,7 +143,7 @@ paths:
                   const options = {
                     method: 'POST',
                     headers: {
-                      Authorization: 'Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu',
+                      Authorization: 'Basic YmlsbGluZ191c2VybmFtZTpiaWxsaW5nX3Bhc3N3b3Jk',
                       'Content-Type': 'multipart/form-data; boundary=---011000010111000001101001'
                     }
                   };
@@ -150,7 +153,7 @@ paths:
                   client.Timeout = -1;
                   var request = new RestRequest(Method.POST);
                   request.AddHeader("content-type", "multipart/form-data; boundary=----011000010111000001101001");
-                  request.AddHeader("Authorization", "Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu");
+                  request.AddHeader("Authorization", "Basic YmlsbGluZ191c2VybmFtZTpiaWxsaW5nX3Bhc3N3b3Jk");
                   request.AddFile("document", "sample_folder/document.pdf");
                   IRestResponse response = client.Execute(request);
                   Console.WriteLine(response.Content);
@@ -211,7 +214,7 @@ paths:
                           "annotations": [
                               {
                                   "type": "signature",
-                                  "name": "Name Surname1 Surname2",
+                                  "name": "John Smith Lopez",
                                   "reason": null,
                                   "location": null,
                                   "signature_time": "2020-11-16T15:24:15+00:00",
@@ -617,7 +620,7 @@ paths:
                                                       "value": "2020-11-17T15:24:00"
                                                   },
                                                   "subject": {
-                                                      "x500name": "CN=Name Surname1 Surname2,SERIALNUMBER=NIEES-YXXXXXXXE,G=Name,SN=Surname1 Surname2,C=ES",
+                                                      "x500name": "CN=John Smith Lopez,SERIALNUMBER=NIEES-YXXXXXXXE,G=Name,SN=Surname1 Surname2,C=ES",
                                                       "items": [
                                                           {
                                                               "oid": "2.5.4.6",
@@ -651,7 +654,7 @@ paths:
                                                               "oid": "2.5.4.3",
                                                               "x500_name": "commonName",
                                                               "x500_short_name": "CN",
-                                                              "value": "Name Surname1 Surname2",
+                                                              "value": "John Smith Lopez",
                                                               "charset": "UTF8_STRING"
                                                           }
                                                       ]
@@ -2126,7 +2129,7 @@ paths:
                               "CONNECTION": "close",
                               "X-REAL-IP": "212.230.233.228",
                               "CONTENT-TYPE": "multipart/form-data; boundary=--------------------------682822153464893463268846",
-                              "AUTHORIZATION": "Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu",
+                              "AUTHORIZATION": "Basic YmlsbGluZ191c2VybmFtZTpiaWxsaW5nX3Bhc3N3b3Jk",
                               "POSTMAN-TOKEN": "fb0fe9b1-12e5-4435-b7d7-29a83ca6e38f"
                           },
                           "document_hash_type": "sha256",
@@ -2388,7 +2391,7 @@ paths:
                                   "content_depth": 0,
                                   "signing_certificate": ".report.annotations[0].signature.certificates[0]",
                                   "index": 0,
-                                  "name": "Name Surname1 Surname2",
+                                  "name": "John Smith Lopez",
                                   "reason": null,
                                   "location": null,
                                   "level": "PAdES-T"
@@ -2422,7 +2425,7 @@ paths:
         - lang: 'curl'
           source: |
                   curl -i -X GET 'https://vol.uanataca.com/api/documents/e09ec1e970388f36/verify/report?type=json&template=report&lang=en' \
-                    -H 'Authorization: Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu'
+                    -H 'Authorization: Basic YmlsbGluZ191c2VybmFtZTpiaWxsaW5nX3Bhc3N3b3Jk'
         - lang: 'JavaScript'
           source: |
                   const query = new URLSearchParams({
@@ -2435,7 +2438,7 @@ paths:
                     'https://vol.uanataca.com/api/documents/e09ec1e970388f36/verify/report?' + query,
                     {
                       method: 'GET',
-                      headers: {Authorization: 'Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu'}
+                      headers: {Authorization: 'Basic YmlsbGluZ191c2VybmFtZTpiaWxsaW5nX3Bhc3N3b3Jk'}
                     }
                   );
 
@@ -2453,7 +2456,7 @@ paths:
                     "lang": "en"
                   }
 
-                  headers = {"Authorization": "Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu"}
+                  headers = {"Authorization": "Basic YmlsbGluZ191c2VybmFtZTpiaWxsaW5nX3Bhc3N3b3Jk"}
 
                   response = requests.get(url, headers=headers, params=query)
 
@@ -2473,7 +2476,7 @@ paths:
                     'https://vol.uanataca.com/api/documents/e09ec1e970388f36/verify/report?' + query,
                     {
                       method: 'GET',
-                      headers: {Authorization: 'Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu'}
+                      headers: {Authorization: 'Basic YmlsbGluZ191c2VybmFtZTpiaWxsaW5nX3Bhc3N3b3Jk'}
                     }
                   );
 
@@ -2491,7 +2494,7 @@ paths:
                     {
                       using (var client = new HttpClient())
                       {
-                        client.DefaultRequestHeaders.Add("Authorization", "Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu");
+                        client.DefaultRequestHeaders.Add("Authorization", "Basic YmlsbGluZ191c2VybmFtZTpiaWxsaW5nX3Bhc3N3b3Jk");
                         var request = await client.GetAsync("https://vol.uanataca.com/api/documents/e09ec1e970388f36/verify/report?type=json&template=report&lang=en");
                         var response = await request.Content.ReadAsStringAsync();
 
@@ -2563,7 +2566,7 @@ paths:
                     'https://vol.uanataca.com/api/documents/e09ec1e970388f36',
                     {
                       method: 'GET',
-                      headers: {Authorization: 'Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu'}
+                      headers: {Authorization: 'Basic YmlsbGluZ191c2VybmFtZTpiaWxsaW5nX3Bhc3N3b3Jk'}
                     }
                   );
 
@@ -2575,7 +2578,7 @@ paths:
 
                   url = "https://vol.uanataca.com/api/documents/e09ec1e970388f36"
 
-                  headers = {"Authorization": "Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu"}
+                  headers = {"Authorization": "Basic YmlsbGluZ191c2VybmFtZTpiaWxsaW5nX3Bhc3N3b3Jk"}
 
                   response = requests.get(url, headers=headers)
 
@@ -2589,7 +2592,7 @@ paths:
                     'https://vol.uanataca.com/api/documents/e09ec1e970388f36',
                     {
                       method: 'GET',
-                      headers: {Authorization: 'Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu'}
+                      headers: {Authorization: 'Basic YmlsbGluZ191c2VybmFtZTpiaWxsaW5nX3Bhc3N3b3Jk'}
                     }
                   );
 
@@ -2607,7 +2610,7 @@ paths:
                     {
                       using (var client = new HttpClient())
                       {
-                        client.DefaultRequestHeaders.Add("Authorization", "Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu");
+                        client.DefaultRequestHeaders.Add("Authorization", "Basic YmlsbGluZ191c2VybmFtZTpiaWxsaW5nX3Bhc3N3b3Jk");
                         var request = await client.GetAsync("https://vol.uanataca.com/api/documents/e09ec1e970388f36");
                         var response = await request.Content.ReadAsStringAsync();
 
@@ -2657,7 +2660,7 @@ paths:
         - lang: 'curl'
           source: |
                   curl -i -X GET https://vol.uanataca.com/reports?documentid=e09ec1e970388f36' \
-                    -H 'Authorization: Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu'
+                    -H 'Authorization: Basic YmlsbGluZ191c2VybmFtZTpiaWxsaW5nX3Bhc3N3b3Jk'
         - lang: 'JavaScript'
           source: |
                   const query = new URLSearchParams({documentid: 'e09ec1e970388f36'}).toString();
@@ -2666,7 +2669,7 @@ paths:
                     'https://vol.uanataca.com/reports?' + query,
                     {
                       method: 'GET',
-                      headers: {Authorization: 'Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu'}
+                      headers: {Authorization: 'Basic YmlsbGluZ191c2VybmFtZTpiaWxsaW5nX3Bhc3N3b3Jk'}
                     }
                   );
 
@@ -2682,7 +2685,7 @@ paths:
                     "documentid": "e09ec1e970388f36"
                   }
 
-                  headers = {"Authorization": "Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu"}
+                  headers = {"Authorization": "Basic YmlsbGluZ191c2VybmFtZTpiaWxsaW5nX3Bhc3N3b3Jk"}
 
                   response = requests.get(url, headers=headers, params=query)
 
@@ -2698,7 +2701,7 @@ paths:
                     'https://vol.uanataca.com/reports?' + query,
                     {
                       method: 'GET',
-                      headers: {Authorization: 'Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu'}
+                      headers: {Authorization: 'Basic YmlsbGluZ191c2VybmFtZTpiaWxsaW5nX3Bhc3N3b3Jk'}
                     }
                   );
 
@@ -2716,7 +2719,7 @@ paths:
                     {
                       using (var client = new HttpClient())
                       {
-                        client.DefaultRequestHeaders.Add("Authorization", "Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu");
+                        client.DefaultRequestHeaders.Add("Authorization", "Basic YmlsbGluZ191c2VybmFtZTpiaWxsaW5nX3Bhc3N3b3Jk");
                         var request = await client.GetAsync("https://vol.uanataca.com/reports?documentid=e09ec1e970388f36");
                         var response = await request.Content.ReadAsStringAsync();
 

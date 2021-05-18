@@ -1,26 +1,24 @@
 # What it is
 
 <div style="text-align: justify">
-Uantaca VOL is a high performance, enterprise-grade solution for bulk electronic signature validation. VOL is a turnkey system that can be easily integrated with any business application thanks to its high-level web API based on the http RESTful paradigm.
+The high-performance solution for electronic signature Validation and Verification service, providing detailed information of the result.
+<br></br>
+Uanataca VOL API is a turnkey system that can be easily integrated with any business application or web thanks to its high-level web API based on the http RESTful paradigm.
 </div>
 
 # How it works
-<div style="text-align: justify">
-The service is given with VOL Optimizer that is a server system exposing http RESTful APIs by means of which, business applications are enabled to require the electronic signature validation of files batch.
-<br></br>
-VOL Optimizer performs the most computationally expensive workload of the validation process, thus reducing the data traffic on the local network. The signed documents to be validated are processed in the customer business layer and are not send to Uanataca Services or to the Certification Authorities.
-<br></br>
 
-The system performs the validation on all the signatures of a document, including the timestamps. The validation consists on:
-</div>
-- verify that the certificate is issued by a Trusted Service Provider (TSP)
-- verify that the certificate was active at the time of signing. It means that the certificate was not expired or revoked at this moment
-- verify the integrity of the document, checking that no changes are made to the document after the signature 
+The solution is given with VOL Optimizer that is a server system exposing http RESTful APIs by means of which, business applications are enabled to require the electronic signature validation of documents.
 
-<div style="text-align: justify">
+VOL Optimizer performs the most computationally expensive workload of the validation and verification process, thus reducing the data traffic on the local network. The signed documents to be validated are processed in the customer business layer and are not send to Uanataca Services.
+
+The system performs the validation and verification on all the signatures contained in a document, including timestamps. The validation consists on:
+
+- Verify that the certificate is issued by a Trusted Service Provider (TSP).
+- Verify that the certificate was valid at the time of signing. It means that the certificate was not expired or revoked at that moment.
+- Verify the integrity of the document, verifying that no changes were done to the document after the signature.
+
 The verification of the digital certificate is carried out through OCSP and CRL queries to the corresponding TSP issuer.
-<br></br>
-</div>
 
 ![img](https://github.com/UANATACA/VOL-REPO/raw/main/img/vol_hiw.png)
 
@@ -144,7 +142,7 @@ Move to the following server path:
 
 	cd /home/bit4id/vol-volumes/vol-web-storage/
 
-Copy SSL certificate files to this path. If you don't have you own certificate, the demo certificate can be used.
+Copy SSL certificate files to this path. If you don't have you own certificate, the provided demo certificate can be used.
 
 	cd /opt/vol_optimizer/demo_SSL_certificate/
 	cp server.cer /home/bit4id/vol-volumes/vol-web-storage/
@@ -204,12 +202,14 @@ The URL where is exposed the API is composed as follows:
 > host
 
 The {host} is the IP or domain from the VOL Optimizer.
+<br>
 
 > resource
 
 It is the name of the resource of our interest.
 
-Each resource can also have path parameters and sub-resources that are defined in the <a href="#APIReference">API Reference</a> below:
+Each resource can also have path parameters and sub-resources that are defined in the <a href="#APIReference">API Reference</a> below.
+<br>
 
 This is an example of endpoint:
 
@@ -251,14 +251,14 @@ Contains general information about the signatures.
 
 * `now` [string]: date & time from the verification
 * `type` [string]: electronic signature profile under the European eIDAS regulation
-	*  Enum: "PAdES", "XAdES", "CAdES"
+	*  Enum: [PAdES, XAdES, CAdES]
 * `document_uri` [string]: uploaded document uri
 * `annotations` [array]: array containing data objects from each signature and timestamp
 
 Signature object:
 
 * `type` [string]: signature
-   Enum: "signature", "timestamp" 
+	*  Enum: [signature, timestamp]
 * `name` [string]: signer's name
 * `reason` [string]: reason of the signature
 * `location` [string]: location where the signature is performed
@@ -268,7 +268,7 @@ Signature object:
 Timestamp object:
 
 * `type` [string]: timestamp
-   Enum: "signature", "timestamp"
+	*  Enum: [signature, timestamp]
 * `tst_info` [object]: timestamp information
 * `content_digest` [string]: timestamp content digest
 * `signature` [object]: See <a href="#section/JSON-validation-response/#Signature-structure">signature structure</a> 
@@ -289,12 +289,12 @@ Report and document information.
 * `lang` [string]: date & time from the verification
 * `upload_time` [string]: date & time from the document upload
 * `outformat` [string]: response format
-	*  Enum: "json"
+	*  Enum: [json]
 * `filename` [string]: uploadded file name
 * `headers` [object]: header used in the HTTP POST request
 * `document_hash_type` [string]: hash algorithm used
 * `template` [string]: validation response template
-	*  Enum: "report"
+	*  Enum: [report]
 * `report_uri` [string]: path to retrieve the validation report
 * `verification_date` [string]: date & time from the validation (optional)
 * `documentid` [string]: document identifier
@@ -303,45 +303,45 @@ Report and document information.
 
 > messages
 
-List of message descriptions.
+List of message descriptions. The complete list is included in every validation response.
 
-"TIMESTAMP_VERIFIED": "The document has not been modified after the application of the timestamp",<br>
-"INVALID_CONTENT_TYPE_ATTRIBUTE": "Digital signature attribute is not compliant (contentType)",<br>
-"MULTIPLE_SIGNING_TIME_ATTRIBUTE": "Verification date is declared multiple times (signingTime)",<br>
-"REVOKED": "Certificate revoked",<br>
-"SIGNATURE_TIMESTAMP_OK": "Valid timestamp",<br> 
-"UNKNOWN_REVOCATION_INFO": "Revocation information is not available",<br> 
-"UNSUPPORTED_ALGORITHM": "Unsupported signing algorithm",<br>
-"UNTRUSTED": "Untrusted CA certificate",<br>
-"CE2011130EU": "Signature complies with EC Decision 2011/130/EU",<br> 
-"NOT_YET_VALID": "Certificate is not yet valid",<br>
-"NOTCE2011130EU": "Signature not complies with EC Decision 2011/130/EU",<br> 
-"UNKNOWN_ISSUER": "Certificate issued by an unknown authority",<br>
-"CONTENT_TIMESTAMP_OK": "Valid timestamp",<br>
-"INVALID_CERTIFICATE_REF": "References to certificates are incorrect",<br> 
-"SIGNATURE_TIMESTAMP_ERROR": "Invalid timestamp",<br>
-"SIGNING_KEY_LESS_THAN_2048_BITS": "The signature key has a length of less than 2048 bits",<br> 
-"NO_CA_BASIC_CONSTRAINTS": "Certificate root without attributes of CA",<br>
-"INDETERMINATE_VALIDATION_TIME": "Verification date is undetermined",<br>
-"SIGNED_DATA_NOT_FOUND": "Signed data is not present",<br>
-"NO_OCSP_SIGNING_USAGE": "Certificate used to sign OCSP response is not suitable for the purpose",<br> 
-"SIGNATURE_VERIFIED": "The document has not been modified after signature",<br>
-"INVALID_TIMESTAMP": "Invalid timestamp",<br>
-"CONTENT_TIMESTAMP_ERROR": "Invalid timestamp",<br> 
-"NO_CERTIFICATE_SIGNING_USAGE": "Certificate issued by a CA not suitable for the purpose",<br> 
-"XML_SCHEMA_MISMATCH": "The XML file does not respect the XAdES/XMLDSIG schema",<br>
-"SIGNING_CERTIFICATE_V1": "The reference to the signature certificate uses an obsolete format (signingCertificate v1)",<br>
-"NO_TIMESTAMPING_USAGE": "The TSA certificate used to issue the timestamp is not suitable for the purpose",<br> 
-"NO_CRL_SIGNING_USAGE": "Certificate used to sign the CRL is not suitable for the purpose",<br>
-"INVALID_SIGNATURE": "Invalid digital signature",<br>
-"TRUSTED": "Trusted CA certificate",<br>
-"SUSPENDED": "Certificate suspended",<br>
-"INVALID_SIGNING_CERTIFICATE_REF": "Reference to the signature certificate is incorrect",<br> 
-"WEAK_HASHING_ALGORITHM": "The document digest was calculated using an weak algorithm",<br>
-"NO_SIGNING_CERTIFICATE": "Signing certificate is not present",<br>
-"EXPIRED": "Certificate expired",<br>
-"NO_SIGNING_CERTIFICATE_REF": "Signing certificate reference is not present",<br> 
-"SIGNING_CERTIFICATE_REF_FOUND": "Reference to the signature certificate is valid"
+**TIMESTAMP_VERIFIED**: "The document has not been modified after the application of the timestamp",<br>
+**INVALID_CONTENT_TYPE_ATTRIBUTE**: "Digital signature attribute is not compliant (contentType)",<br>
+**MULTIPLE_SIGNING_TIME_ATTRIBUTE**: "Verification date is declared multiple times (signingTime)",<br>
+**REVOKED**: "Certificate revoked",<br>
+**SIGNATURE_TIMESTAMP_OK**: "Valid timestamp",<br> 
+**UNKNOWN_REVOCATION_INFO**: "Revocation information is not available",<br> 
+**UNSUPPORTED_ALGORITHM**: "Unsupported signing algorithm",<br>
+**UNTRUSTED**: "Untrusted CA certificate",<br>
+**CE2011130EU**: "Signature complies with EC Decision 2011/130/EU",<br> 
+**NOT_YET_VALID**: "Certificate is not yet valid",<br>
+**NOTCE2011130EU**: "Signature not complies with EC Decision 2011/130/EU",<br> 
+**UNKNOWN_ISSUER**: "Certificate issued by an unknown authority",<br>
+**CONTENT_TIMESTAMP_OK**: "Valid timestamp",<br>
+**INVALID_CERTIFICATE_REF**: "References to certificates are incorrect",<br> 
+**SIGNATURE_TIMESTAMP_ERROR**: "Invalid timestamp",<br>
+**SIGNING_KEY_LESS_THAN_2048_BITS**: "The signature key has a length of less than 2048 bits",<br> 
+**NO_CA_BASIC_CONSTRAINTS**: "Certificate root without attributes of CA",<br>
+**INDETERMINATE_VALIDATION_TIME**: "Verification date is undetermined",<br>
+**SIGNED_DATA_NOT_FOUND**: "Signed data is not present",<br>
+**NO_OCSP_SIGNING_USAGE**: "Certificate used to sign OCSP response is not suitable for the purpose",<br> 
+**SIGNATURE_VERIFIED**: "The document has not been modified after signature",<br>
+**INVALID_TIMESTAMP**: "Invalid timestamp",<br>
+**CONTENT_TIMESTAMP_ERROR**: "Invalid timestamp",<br> 
+**NO_CERTIFICATE_SIGNING_USAGE**: "Certificate issued by a CA not suitable for the purpose",<br> 
+**XML_SCHEMA_MISMATCH**: "The XML file does not respect the XAdES/XMLDSIG schema",<br>
+**SIGNING_CERTIFICATE_V1**: "The reference to the signature certificate uses an obsolete format (signingCertificate 1)",<br>
+**NO_TIMESTAMPING_USAGE**: "The TSA certificate used to issue the timestamp is not suitable for the purpose",<br> 
+**NO_CRL_SIGNING_USAGE**: "Certificate used to sign the CRL is not suitable for the purpose",<br>
+**INVALID_SIGNATURE**: "Invalid digital signature",<br>
+**TRUSTED**: "Trusted CA certificate",<br>
+**SUSPENDED**: "Certificate suspended",<br>
+**INVALID_SIGNING_CERTIFICATE_REF**: "Reference to the signature certificate is incorrect",<br> 
+**WEAK_HASHING_ALGORITHM**"The document digest was calculated using an weak algorithm",<br>
+**NO_SIGNING_CERTIFICATE**: "Signing certificate is not present",<br>
+**EXPIRED**: "Certificate expired",<br>
+**NO_SIGNING_CERTIFICATE_REF**: "Signing certificate reference is not present",<br> 
+**SIGNING_CERTIFICATE_REF_FOUND**: "Reference to the signature certificate is valid"
 
 
 > validation
@@ -351,7 +351,7 @@ Contains validations results for each signature and timestamp.
 * `signatures` [array]: contains the results of the signtaure validations. See <a href="#section/JSON-validation-response/#Signature-validation-structure">signature validation structure</a> 
 * `timestamps` [array]: contains the results of the timestamp validations. See <a href="#section/JSON-validation-response/#Timestamp-validation-structure">timestamp validation structure</a>
 * `result` [string]: validation result
-	* Enum: "SUCCESS", "ERROR"
+	* Enum: [SUCCESS, ERROR]
 
 
 > profile
@@ -359,7 +359,7 @@ Contains validations results for each signature and timestamp.
 Profile used in the validation.
 
 * `type` [string]: electronic signature profile, under the European eIDAS regulation, used in the validation
-	*  Enum: "PAdES", "XAdES", "CAdES"
+	*  Enum: [PAdES, XAdES, CAdES]
 * `name` [string]: profile name
 * `description` [string]: profile description
 
@@ -369,51 +369,168 @@ Example of a validation response:
 ```json
 {
   "report": {
-    "now": "2017-12-20T11:46:36.862950",
-    "type": "CAdES",
-    "document_uri": "/contents?documentid=c1cab389ac304222",
-    "signed_data": {…}
-  },
-  "errors": [
-    {
-      "where": "x509/extensions/qcStatements/QcPDS",
-      "what": "INVALID_ENCODING"
-    }
-  ],
+    "now": "2021-05-06T09:38:53.075351", 
+    "type": "PAdES", 
+    "document_uri": "/contents?documentid=217dfbf293c440cd", 
+    "annotations": [
+      {
+        "type": "signature", 
+        "name": "John Smith Lopez", 
+        "reason": null, 
+        "location": null, 
+        "signature_time": "2021-05-06T11:35:01+02:00", 
+        "signature": {
+          "version": 1, 
+          "digest_algorithm_identifiers": [
+            {
+              "oid": "2.16.840.1.101.3.4.2.1", 
+              "name": "sha256", 
+              "parameters": null
+            }
+          ], 
+          "signatures": [...], 
+          "certificates": [...], 
+          "crls": [...], 
+          "ocsps": [...]
+        }
+      }
+    ]
+  }, 
+  "errors": [], 
   "data": {
-    "upload_time": "2017-12-20T11:46:36.320074",
-    "outformat": "json",
-    "filename": "cades-text.p7m",
+    "lang": "en", 
+    "upload_time": "2021-05-06T09:37:54.556609", 
+    "outformat": "json", 
+    "filename": "sample_JS.pdf", 
     "headers": {
-      "CONTENT-LENGTH": "3402",
-      "ACCEPT": "*/*",
-      "USER-AGENT": "curl/7.47.0",
-      "HOST": "docky",
-      "EXPECT": "100-continue",
-      "CONTENT-TYPE": "multipart/form-data; boundary=------------------------f699eebb362e5038",
-      "AUTHORIZATION": "token bef3ba974d7c8e183a70d7264ba40890"
-    },
-    "document_hash_type": "sha256",
-    "template": "report",
-    "report_uri": "/reports?documentid=c1cab389ac304222",
-    "verification_date": null,
-    "documentid": "c1cab389ac304222",
-    "document_hash": "c1cab389ac30422251bd723f6b508930251f2e8b0e0ab62f4ffed256f2c68ef1"
-  },
+      "CONTENT-LENGTH": "1097136", 
+      "ACCEPT-ENCODING": "gzip, deflate, br", 
+      "X-FORWARDED-FOR": "2.136.119.0", 
+      "HOST": "vol.uanataca.com", 
+      "ACCEPT": "*/*", 
+      "USER-AGENT": "PostmanRuntime/7.28.0", 
+      "CONNECTION": "close", 
+      "COOKIE": "sessionid=7uba3t8qimqazlesudgo868lhvgbmo1s", 
+      "CACHE-CONTROL": "no-cache", 
+      "X-REAL-IP": "2.136.119.0", 
+      "CONTENT-TYPE": "multipart/form-data; boundary=--------------------------915876127613387628723467", 
+      "AUTHORIZATION": "Basic dGVzdEB1YW5hdGFjYS5jb206YmVsb3JhZG83NA==", 
+      "POSTMAN-TOKEN": "a1462d78-6c4c-4042-a10f-6d421504eb3b"
+    }, 
+    "document_hash_type": "sha256", 
+    "template": "report", 
+    "report_uri": "/reports?documentid=217dfbf293c440cd", 
+    "verification_date": null, 
+    "documentid": "217dfbf293c440cd", 
+    "document_hash": "217dfbf293c440cd45681504b8eed1dc340e933c7389569101c45b696a22ceae"
+  }, 
   "messages": {
-    "it": {
-      "INVALID_CONTENT_TYPE_ATTRIBUTE": "Atributo de la firma no conforme (contentType)",
-      "MULTIPLE_SIGNING_TIME_ATTRIBUTE": "Fecha y hora de la firma declarada más veces
-      (signingTime)",
-      …
-      "SIGNING_CERTIFICATE_REF_FOUND": "Referencia al certificado de firma válido"
-    }
-  },
+    "TIMESTAMP_VERIFIED": "The document has not been modified after the application of the timestamp", 
+    "INVALID_CONTENT_TYPE_ATTRIBUTE": "Digital signature attribute is not compliant (contentType)", 
+    "MULTIPLE_SIGNING_TIME_ATTRIBUTE": "Verification date is declared multiple times (signingTime)", 
+    "REVOKED": "Certificate revoked", 
+    "SIGNATURE_TIMESTAMP_OK": "Valid timestamp", 
+    "UNKNOWN_REVOCATION_INFO": "Revocation information is not available", 
+    "UNSUPPORTED_ALGORITHM": "Unsupported signing algorithm", 
+    "UNTRUSTED": "Untrusted CA certificate", 
+    "CE2011130EU": "Signature complies with EC Decision 2011/130/EU", 
+    "NOT_YET_VALID": "Certificate is not yet valid", 
+    "NOTCE2011130EU": "Signature not complies with EC Decision 2011/130/EU", 
+    "UNKNOWN_ISSUER": "Certificate issued by an unknown authority", 
+    "CONTENT_TIMESTAMP_OK": "Valid timestamp", 
+    "INVALID_CERTIFICATE_REF": "References to certificates are incorrect", 
+    "SIGNATURE_TIMESTAMP_ERROR": "Invalid timestamp", 
+    "SIGNING_KEY_LESS_THAN_2048_BITS": "The signature key has a length of less than 2048 bits", 
+    "NO_CA_BASIC_CONSTRAINTS": "Certificate root without attributes of CA", 
+    "INDETERMINATE_VALIDATION_TIME": "Verification date is undetermined", 
+    "SIGNED_DATA_NOT_FOUND": "Signed data is not present", 
+    "NO_OCSP_SIGNING_USAGE": "Certificate used to sign OCSP response is not suitable for the purpose", 
+    "SIGNATURE_VERIFIED": "The document has not been modified after signature", 
+    "INVALID_TIMESTAMP": "Invalid timestamp", 
+    "CONTENT_TIMESTAMP_ERROR": "Invalid timestamp", 
+    "NO_CERTIFICATE_SIGNING_USAGE": "Certificate issued by a CA not suitable for the purpose", 
+    "XML_SCHEMA_MISMATCH": "The XML file does not respect the XAdES/XMLDSIG schema", 
+    "SIGNING_CERTIFICATE_V1": "The reference to the signature certificate uses an obsolete format (signingCertificate v1)", 
+    "NO_TIMESTAMPING_USAGE": "The TSA certificate used to issue the timestamp is not suitable for the purpose", 
+    "NO_CRL_SIGNING_USAGE": "Certificate used to sign the CRL is not suitable for the purpose", 
+    "INVALID_SIGNATURE": "Invalid digital signature", 
+    "TRUSTED": "Trusted CA certificate", 
+    "SUSPENDED": "Certificate suspended", 
+    "INVALID_SIGNING_CERTIFICATE_REF": "Reference to the signature certificate is incorrect", 
+    "WEAK_HASHING_ALGORITHM": "The document digest was calculated using an weak algorithm", 
+    "NO_SIGNING_CERTIFICATE": "Signing certificate is not present", 
+    "EXPIRED": "Certificate expired", 
+    "NO_SIGNING_CERTIFICATE_REF": "Signing certificate reference is not present", 
+    "SIGNING_CERTIFICATE_REF_FOUND": "Reference to the signature certificate is valid"
+  }, 
   "validation": {
-    "profile": "CAdES",
-    "signatures": […],
-    "timestamps": []
-  }
+    "signatures": [
+      {
+        "data": ".report.annotations[0].signature.signatures[0]", 
+        "type": "signature", 
+        "status": {
+          "": [
+            "SUCCESS:SIGNATURE_VERIFIED"
+          ], 
+          ".validation.signatures[0].certificates[1]": [
+            "SUCCESS:TRUSTED"
+          ], 
+          ".validation.signatures[0].timestamps[0]": [
+            "SUCCESS:SIGNATURE_TIMESTAMP_OK"
+          ]
+        }, 
+        "time": "2021-05-06T09:35:00+00:00", 
+        "timestamps": [
+          {
+            "data": ".report.annotations[0].signature.signatures[0].unsigned_attributes[0].value.signature.signatures[0]", 
+            "type": "signature_timestamp", 
+            "status": {
+              "": [
+                "SUCCESS:TIMESTAMP_VERIFIED"
+              ], 
+              ".validation.signatures[0].timestamps[0].certificates[1]": [
+                "SUCCESS:TRUSTED"
+              ]
+            }, 
+            "time": "2021-05-06T09:35:00+00:00", 
+            "tst_info": ".report.annotations[0].signature.signatures[0].unsigned_attributes[0].value.tst_info", 
+            "certificate_refs": {
+              "v1": [], 
+              "v2": [
+                ".report.annotations[0].signature.certificates[2]"
+              ]
+            }, 
+            "certificates": [...], 
+            "content_depth": 0, 
+            "signing_certificate": ".report.annotations[0].signature.certificates[2]", 
+            "stamps": 0, 
+            "index": 0
+          }
+        ], 
+        "certificate_refs": {
+          "v1": [], 
+          "v2": []
+        }, 
+        "certificates": [...], 
+        "content_depth": 0, 
+        "signing_certificate": ".report.annotations[0].signature.certificates[0]", 
+        "index": 0, 
+        "name": "John Smith Lopez", 
+        "reason": null, 
+        "location": null, 
+        "level": "PAdES-T"
+      }
+    ], 
+    "timestamps": [], 
+    "result": "SUCCESS"
+  }, 
+  "profile": [
+    {
+      "type": "PAdES", 
+      "name": "PAdES", 
+      "description": ""
+    }
+  ]
 }
 ```
 
@@ -421,7 +538,7 @@ Example of a validation response:
 
 * `data` [string]: JSON path where the signature is located
 * `type` [string]: signature or timestamp
-	* Enum: "signature"
+	* Enum: [signature]
 * `status` [object]: validation status for each signature and timestamp included in a signature.
 * `time` [string]: date & time from the verification
 * `timestamps` [array]: timestamps inluded in a signature. See <a href="#section/JSON-validation-response/#Timestamp-validation-structure">timestamp validation structure</a>
@@ -433,14 +550,14 @@ Example of a validation response:
 * `reason` [string]: reason of the signature
 * `location` [string]: location where the signature is performed
 * `level` [string]:  electronic signature level under the European eIDAS regulation
-	* Enum: "PADES-BASIC","PADES-T","PADES-LT","XAdES-BASIC","XAdES-T","CAdES-BASIC","CAdES-T"
+	* Enum: [PADES-BASIC, PADES-T, PADES-LT, XAdES-BASIC, XAdES-T, XAdES-XL, CAdES-BASIC, CAdES-T]
 
 
 ## Timestamp validation structure
 
 * `data` [string]: JSON path where the signature is located
 * `type` [string]: signature or timestamp
-	* Enum: "timestamp"
+	* Enum: [timestamp]
 * `status` [object]: validation status for each signature and timestamp included in a signature.
 * `time` [string]: date & time of the timestamp
 * `tst_info` [string]: timestamp information
