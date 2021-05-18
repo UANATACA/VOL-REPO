@@ -19,6 +19,7 @@ The system performs the validation and verification on all the signatures contai
 - Verify the integrity of the document, verifying that no changes were done to the document after the signature.
 
 The verification of the digital certificate is carried out through OCSP and CRL queries to the corresponding TSP issuer.
+<br></br>
 
 ![img](https://github.com/UANATACA/VOL-REPO/raw/main/img/vol_hiw.png)
 
