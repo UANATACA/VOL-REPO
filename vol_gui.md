@@ -160,7 +160,7 @@ Extract the content:
 
 Run the script to insert your client Billing credentials (username and password):
 
-  cd vol-gui-passwd/bin
+  cd /home/bit4id/vol-gui-passwd/bin
   ./passwd
 
 </br>
