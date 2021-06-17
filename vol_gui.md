@@ -160,9 +160,9 @@ Extract the content:
 
 Run the script to insert your client Billing credentials (username and password):
 
-	cd /home/bit4id/
-	tar -xvf vol-gui-passwd.tar.gz
-
+	./passwd
+	cd /home/bit4id/vol-gui-passwd/bin
+  
 </br>
 
 > STEP 3: Launch the service.
