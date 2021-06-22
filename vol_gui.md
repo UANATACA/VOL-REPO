@@ -139,16 +139,14 @@ Uanataca VOL exposes a custom website to validate documents. The website require
 
 The SSL certificates are required to expose the validation web. If the web is not exposed, the SSL certificate demo files provided in the `vol_optimizer_docker.zip` can be used.
 
-Move to the following server path:
+Consider the following server path:
 
-	cd /home/bit4id/vol-volumes/vol-web-storage/
+	/home/bit4id/vol-volumes/vol-web-storage/
 
-Copy SSL certificate files to this path. If you don't have you own certificate, the provided demo certificate can be used.
+Please copy SSL certificate files here. If you don't have your own certificate, the provided demo certificate can be used. They are located at /opt/vol_optimizer/demo_SSL_certificate in the server.
 
 	cd /opt/vol_optimizer/demo_SSL_certificate/
-	cp server.cer /home/bit4id/vol-volumes/vol-web-storage/
-	cp server.key /home/bit4id/vol-volumes/vol-web-storage/ 
-
+	cp server.cer server.key /home/bit4id/vol-volumes/vol-web-storage/
 
 </br>
 
@@ -160,10 +158,11 @@ Extract the content:
 	cd /home/bit4id/
 	tar -xvf vol-gui-passwd.tar.gz
 
-Run the script to set Billing credentials (username and password):
+Run the script to insert your client Billing credentials (username and password):
 
 	./passwd
-
+	cd /home/bit4id/vol-gui-passwd/bin
+  
 </br>
 
 > STEP 3: Launch the service.
@@ -192,11 +191,13 @@ All services must be UP.
 
 </br>
 
+> STEP 4: Contact Uanataca support team.
 
+The last step before document validation requires additional settings that may vary for each client server. Please contact our support team for assistance.   
 
 # Endpoint URLs
 
-The URL where is exposed the API is composed as follows:
+The URL exposing the API is composed as follows:
 
 	{host}/api/{resource}/
 
