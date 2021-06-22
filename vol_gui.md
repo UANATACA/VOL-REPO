@@ -101,9 +101,7 @@ Run the following commands:
 
 Remove image files:
 
-	rm -rf /opt/vol_optimizer/vol-api.tar.gz
-	rm -rf /opt/vol_optimizer/vol-gui.tar.gz
-	rm -rf /opt/vol_optimizer/vol-web.tar.gz
+	rm -rf /opt/vol_optimizer/*.gz
 
 </br>
 
