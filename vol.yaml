@@ -99,7 +99,7 @@ paths:
                   import Headers from "headers";
 
                   var myHeaders = new Headers();
-                  myHeaders.append("Authorization", "Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu");
+                  myHeaders.append("Authorization", "Basic YmlsbGluZ191c2VybmFtZTpiaWxsaW5nX3Bhc3N3b3Jk");
                   
                   var formdata = new FormData();
                   formdata.append("document", fileInput.files[0], "sample_folder/document.pdf");
@@ -147,7 +147,7 @@ paths:
 
                   var options = {
                   method: 'POST',
-                  headers: {Authorization: 'Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu'},
+                  headers: {Authorization: 'Basic YmlsbGluZ191c2VybmFtZTpiaWxsaW5nX3Bhc3N3b3Jk'},
                   body: formData,
                   redirect: 'follow'
                   };
@@ -160,14 +160,31 @@ paths:
                     .catch(err => console.error('error:' + err));
         - lang: 'C#'
           source: |
-                  var client = new RestClient("https://vol.uanataca.com/api/documents");
-                  client.Timeout = -1;
-                  var request = new RestRequest(Method.POST);
-                  request.AddHeader("content-type", "multipart/form-data; boundary=----011000010111000001101001");
-                  request.AddHeader("Authorization", "Basic YmlsbGluZ191c2VybmFtZTpiaWxsaW5nX3Bhc3N3b3Jk");
-                  request.AddFile("document", "sample_folder/document.pdf");
-                  IRestResponse response = client.Execute(request);
-                  Console.WriteLine(response.Content);
+                  using System;
+                  using System.Threading.Tasks;
+                  using RestSharp;
+
+                  public class Program
+                  {
+                  public static Task Main(string[] args)
+                      {
+                          var client = new RestClient("https://vol.uanataca.com/api/documents");
+                          client.Timeout = -1;
+  
+                          string docPath = "docs/sample.pdf";
+  
+                          var request = new RestRequest(Method.POST);
+                          request.AlwaysMultipartFormData = true;
+                          request.AddHeader("content-type", "multipart/form-data");
+                          request.AddHeader("Authorization", "Basic YmlsbGluZ191c2VybmFtZTpiaWxsaW5nX3Bhc3N3b3Jk");
+                          request.AddFile("document", docPath, "application/pdf");
+  
+                          IRestResponse response = client.Execute(request);
+
+                          Console.WriteLine(response.Content);
+                          return Task.CompletedTask;
+                      }
+                  } 
   #############
   /api/documents/{id}/verify/report:
     get: 
