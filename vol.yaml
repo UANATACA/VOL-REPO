@@ -139,20 +139,20 @@ paths:
                   import fetch from "node-fetch";
                   import FormData from "form-data";
                   import fs from "fs";
-                  import Headers from "headers";
 
-                  var myHeaders = new Headers();
-                  myHeaders.append("Authorization", "Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu");
-                  
-                  var formdata = new FormData();
-                  formdata.append("document", fileInput.files[0], "sample_folder/document.pdf");
+                  var formData = new FormData();
+                  formData.append('document', fs.createReadStream('docs/sample.pdf'));
 
-                  var requestOptions = {
-                    method: 'POST',
-                    headers: myHeaders,
-                    body: formdata,
-                    redirect: 'follow'
+                  var url = 'https://vol.uanataca.com/api/documents/';
+
+                  var options = {
+                  method: 'POST',
+                  headers: {Authorization: 'Basic amdvQHVhbmF0YWNhLmNvbTpQZXJvbGl0bzEu'},
+                  body: formData,
+                  redirect: 'follow'
                   };
+
+                  options.body = formData;
 
                   fetch(url, options)
                     .then(res => res.json())
