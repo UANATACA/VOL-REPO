@@ -88,7 +88,7 @@ referenceDocs:
     layout:
       showDarkRightPanel: true
     rightPanel:
-      backgroundColor: 'red'
+      backgroundColor: '#585856'
       width: '40%'
       textColor: '#FFFFFF'
     codeSample:
