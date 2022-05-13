@@ -58,7 +58,7 @@ paths:
       - in: header
         name: Authorization
         required: true
-        description: <a href="#section/Authentication">Billing credentials</a>
+        description: See <a href="#section/Authentication">Billing credentials</a> in authentication section.
         type: string
       - in: formData
         name: document
@@ -209,7 +209,7 @@ paths:
         name: Authorization
         required: true
         type: string
-        description: <a href="#section/Authentication">Billing credentials</a>
+        description: See <a href="#section/Authentication">Billing credentials</a> in authentication section.
       - in: path
         name: id
         type: string
@@ -2554,7 +2554,7 @@ paths:
         name: Authorization
         required: true
         type: string
-        description: <a href="#section/Authentication">Billing credentials</a>
+        description: See <a href="#section/Authentication">Billing credentials</a> in authentication section.
       - in: path
         name: id
         type: string 
@@ -2670,7 +2670,7 @@ paths:
         name: Authorization
         required: true
         type: string
-        description: <a href="#section/Authentication">Billing credentials</a>
+        description: See <a href="#section/Authentication">Billing credentials</a> in authentication section.
       - in: query
         name: documentid
         type: string 
