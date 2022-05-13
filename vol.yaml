@@ -67,7 +67,7 @@ paths:
         type: file
       - in: formData
         name: verification_date
-        description: The verification date fixes the verification date. In its absence, the system chooses one that depends on the verification profile.Format of the input is YYYY-MM-DDTHH:mm:ss
+        description: The verification date fixes the verification date. In its absence, the system chooses one that depends on the verification profile. Format of the input is YYYY-MM-DDTHH:mm:ss
         required: false
         type: string
       - in: formData
