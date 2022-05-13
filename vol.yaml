@@ -55,16 +55,26 @@ paths:
       consumes:
         - multipart/form-data
       parameters:
+      - in: header
+        name: Authorization
+        required: true
+        description: <a href="#section/Authentication">Billing credentials</a>
+        type: string
       - in: formData
         name: document
         description: The document to be verified
         required: true
         type: file
-      - in: header
-        name: Authorization
-        required: true
-        description: Billing credentials
+      - in: formData
+        name: verification_date
+        description: The verification date fixes the verification date. In its absence, the system chooses one that depends on the verification profile.
+        required: false
         type: string
+      - in: formData
+        name: content
+        description: The **content** allows to upload a detached signature. In his absence the signature is searched in the document.
+        required: false
+        type: file
       responses:
         201:
           description: Successful Response
@@ -195,6 +205,11 @@ paths:
       produces:
         - application/json
       parameters:
+      - in: header
+        name: Authorization
+        required: true
+        type: string
+        description: <a href="#section/Authentication">Billing credentials</a>
       - in: path
         name: id
         type: string
@@ -218,11 +233,6 @@ paths:
         enum: [en, es, it]
         required: true  
         description: The reponse language
-      - in: header
-        name: Authorization
-        required: true
-        type: string
-        description: User credentials
       responses:
         200:
           description: Successful Response
@@ -2540,16 +2550,16 @@ paths:
       produces:
         - application/pdf  
       parameters:
+      - in: header
+        name: Authorization
+        required: true
+        type: string
+        description: <a href="#section/Authentication">Billing credentials</a>
       - in: path
         name: id
         type: string 
         required: true
         description: The identifier of the document to be verified, generated in the <a href='#tag/Validation/paths/~1api~1documents/post'>upload document</a> call
-      - in: header
-        name: Authorization
-        required: true
-        type: string
-        description: User credentials
       responses:
         200:
           description: Successful Response
@@ -2656,16 +2666,16 @@ paths:
       produces:
         - application/pdf     
       parameters:
+      - in: header
+        name: Authorization
+        required: true
+        type: string
+        description: <a href="#section/Authentication">Billing credentials</a>
       - in: query
         name: documentid
         type: string 
         description: The identifier of the document to be verified, generated in the <a href='#tag/Validation/paths/~1api~1documents/post'>upload document</a> call
         required: true
-      - in: header
-        name: Authorization
-        required: true
-        type: string
-        description: User credentials
       responses:
         200:
           description: Successful Response
