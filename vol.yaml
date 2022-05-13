@@ -67,7 +67,7 @@ paths:
         type: file
       - in: formData
         name: verification_date
-        description: The verification date fixes the verification date. In its absence, the system chooses one that depends on the verification profile.
+        description: The verification date fixes the verification date. In its absence, the system chooses one that depends on the verification profile.Format of the input is YYYY-MM-DDTHH:mm:ss
         required: false
         type: string
       - in: formData
@@ -100,7 +100,9 @@ paths:
                     https://vol.uanataca.com/api/documents \
                     -H 'Authorization: Basic YmlsbGluZ191c2VybmFtZTpiaWxsaW5nX3Bhc3N3b3Jk' \
                     -H 'Content-Type: multipart/form-data' \
-                    -F document=@sample_folder/document.pdf
+                    -F document=@sample_folder/document.pdf \
+                    -F content=@sample_folder/document.pdf \
+                    -F verification_date= 'YYYY-MM-DDTHH:mm:ss'
         - lang: 'JavaScript'
           source: |
                   import fetch from "node-fetch";
@@ -113,6 +115,8 @@ paths:
                   
                   var formdata = new FormData();
                   formdata.append("document", fileInput.files[0], "sample_folder/document.pdf");
+                  formdata.append("content", fileInput.files[0], "sample_folder/document.pdf");
+                  formdata.append("verification_date","YYYY-MM-DDTHH:mm:ss");
 
                   var requestOptions = {
                     method: 'POST',
